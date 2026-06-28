@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>English Center - Nhóm 3</title>
+  <meta name="description" content="Danh sách khóa học Tiếng Anh THPTQG từ nền tảng, ngữ pháp, từ vựng đến luyện đề chuyên sâu.">
+  <meta name="keywords" content="">
+
+  <link href="assets/img/logo.1.jpg" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2family=Roboto:wght@300;400;500;700&family=Raleway:wght@400;600;700;800;900&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <style>
+  /* ═══════════════════════════════════════════
+     COURSE DETAIL MODAL
+  ═══════════════════════════════════════════ */
+  .kh-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.65); z-index:99999;
+    overflow-y:auto; padding:24px 12px;
+    backdrop-filter:blur(4px);
+  }
+  .kh-overlay.open { display:block; animation:khFadeIn .2s ease; }
+  @keyframes khFadeIn { from{opacity:0} to{opacity:1} }
+
+  .kh-box {
+    background:#fff; max-width:1020px; margin:0 auto;
+    border-radius:18px; overflow:hidden;
+    box-shadow:0 32px 100px rgba(0,0,0,.35);
+    position:relative;
+    animation:khSlideUp .3s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes khSlideUp {
+    from{transform:translateY(28px);opacity:0}
+    to{transform:translateY(0);opacity:1}
+  }
+
+  /* Close button */
+  .kh-close {
+    position:absolute; top:14px; right:14px; z-index:20;
+    background:rgba(0,0,0,.08); border:none;
+    width:34px; height:34px; border-radius:50%;
+    cursor:pointer; font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s; color:#333;
+  }
+  .kh-close:hover { background:rgba(0,0,0,.18); }
+
+  /* Two-column grid */
+  .kh-grid { display:grid; grid-template-columns:1fr 300px; min-height:520px; }
+
+  /* ── LEFT COLUMN ── */
+  .kh-left { padding:28px 28px 28px 28px; overflow-y:auto; max-height:88vh; }
+
+  /* Hero area: image + title side-by-side */
+  .kh-hero { display:grid; grid-template-columns:200px 1fr; gap:18px; margin-bottom:20px; }
+  .kh-hero-img { position:relative; border-radius:12px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,.15); }
+  .kh-hero-img img { width:100%; height:130px; object-fit:cover; display:block; }
+  .kh-hero-play {
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.28); cursor:pointer; transition:background .2s;
+  }
+  .kh-hero-play:hover { background:rgba(0,0,0,.42); }
+  .kh-hero-play i { color:#fff; font-size:36px; }
+
+  .kh-hero-info { display:flex; flex-direction:column; justify-content:center; }
+  .kh-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+  .kh-tag-cat { background:#e8f0fe; color:#1a56db; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; }
+  .kh-tag-lvl { background:#fef3c7; color:#92400e; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; }
+  .kh-title  { font-size:20px; font-weight:800; color:#1a1a2e; margin:0 0 10px; line-height:1.3; }
+  .kh-short-desc { font-size:13px; color:#666; line-height:1.6; margin:0 0 12px; }
+
+  /* Instructor row */
+  .kh-inst-row { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8f9ff; border-radius:10px; }
+  .kh-inst-av  { width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid #d0d8f8; flex-shrink:0; }
+  .kh-inst-lbl { font-size:10px; color:#999; text-transform:uppercase; letter-spacing:.5px; }
+  .kh-inst-name{ font-size:14px; font-weight:700; color:#1a1a2e; }
+  .kh-inst-role{ font-size:11px; color:#1a56db; }
+  .kh-rating-row { display:flex; align-items:center; gap:6px; margin-top:6px; }
+  .kh-rating-row .stars { color:#f59e0b; font-size:13px; }
+  .kh-rating-row .num   { font-weight:700; color:#1a1a2e; font-size:13px; }
+  .kh-rating-row .cnt   { color:#888; font-size:12px; }
+
+  /* TABS */
+  .kh-tabs { display:flex; gap:2px; border-bottom:2px solid #f0f0f0; margin:18px 0 18px; }
+  .kh-tab  {
+    background:none; border:none; padding:9px 20px;
+    font-size:13.5px; font-weight:600; cursor:pointer;
+    color:#888; border-bottom:2px solid transparent;
+    margin-bottom:-2px; transition:all .2s;
+    display:flex; align-items:center; gap:6px;
+  }
+  .kh-tab.active { color:#1a56db; border-bottom-color:#1a56db; }
+  .kh-tab i { font-size:13px; }
+
+  /* Tab panes */
+  .kh-pane { display:none; }
+  .kh-pane.active { display:block; animation:khTab .2s ease; }
+  @keyframes khTab { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+  .kh-pane h4 { font-size:14px; font-weight:700; margin:16px 0 10px; color:#1a1a2e; }
+  .kh-pane .kh-desc { font-size:13.5px; color:#555; line-height:1.8; margin-bottom:4px; }
+
+  /* Skills grid */
+  .kh-skills { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .kh-skill  { display:flex; align-items:center; gap:10px; background:#f8f9ff; border-radius:10px; padding:10px 12px; }
+  .kh-skill-icon { width:34px; height:34px; border-radius:8px; background:#1a56db; color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+  .kh-skill-name { font-size:12px; font-weight:700; color:#1a1a2e; }
+  .kh-skill-sub  { font-size:11px; color:#888; margin-top:1px; }
+
+  /* Requirements */
+  .kh-reqs { list-style:none; padding:0; margin:0; }
+  .kh-reqs li { display:flex; gap:8px; font-size:13px; color:#444; margin-bottom:8px; align-items:flex-start; }
+  .kh-reqs li::before { content:""; color:#1a56db; font-weight:800; flex-shrink:0; margin-top:1px; }
+
+  /* Curriculum */
+  .kh-chapter     { border:1px solid #e8e8e8; border-radius:10px; overflow:hidden; margin-bottom:8px; }
+  .kh-chapter-hd  { background:#f8f9ff; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:13.5px; color:#1a1a2e; cursor:pointer; }
+  .kh-chapter-hd span { font-size:12px; color:#888; font-weight:400; }
+  .kh-chapter-body{ padding:4px 16px 10px; }
+  .kh-lesson { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #f5f5f5; font-size:13px; color:#555; }
+  .kh-lesson:last-child { border-bottom:none; }
+  .kh-lesson i { color:#1a56db; font-size:13px; }
+
+  /* Reviews */
+  .kh-rev-summary { display:flex; align-items:center; gap:20px; background:#f8f9ff; border-radius:12px; padding:18px 20px; margin-bottom:18px; }
+  .kh-rating-big  { font-size:54px; font-weight:900; color:#1a1a2e; line-height:1; }
+  .kh-stars-big   { color:#f59e0b; font-size:20px; margin-bottom:4px; }
+  .kh-rev-count   { font-size:13px; color:#888; }
+  .kh-rev-item    { border-bottom:1px solid #f0f0f0; padding-bottom:14px; margin-bottom:14px; }
+  .kh-rev-item:last-child { border-bottom:none; }
+  .kh-rev-header  { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+  .kh-rev-av      { width:36px; height:36px; border-radius:50%; background:#1a56db; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0; }
+  .kh-rev-name    { font-weight:700; font-size:13.5px; color:#222; }
+  .kh-rev-stars   { color:#f59e0b; font-size:12px; }
+  .kh-rev-text    { font-size:13px; color:#555; line-height:1.65; }
+
+  /* ── RIGHT COLUMN ── */
+  .kh-right { background:#fafbfc; border-left:1px solid #eaeaea; padding:20px 18px; display:flex; flex-direction:column; gap:14px; overflow-y:auto; max-height:88vh; }
+
+  /* Price box */
+  .kh-price-box  { background:#fff; border-radius:12px; padding:18px; box-shadow:0 2px 12px rgba(0,0,0,.07); }
+  .kh-price-row  { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .kh-price      { font-size:24px; font-weight:900; color:#1a1a2e; }
+  .kh-price-orig { font-size:14px; color:#aaa; text-decoration:line-through; }
+  .kh-badge-sale { background:#fee2e2; color:#dc2626; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+  .kh-enrolled   { font-size:12px; color:#888; margin-bottom:12px; display:flex; align-items:center; gap:5px; }
+  .kh-enrolled i { color:#1a56db; }
+
+  /* Include icons */
+  .kh-includes { list-style:none; padding:0; margin:0 0 14px; border-top:1px solid #f0f0f0; padding-top:12px; }
+  .kh-includes li { display:flex; align-items:center; gap:8px; font-size:12.5px; color:#555; padding:4px 0; }
+  .kh-includes li i { color:#1a56db; font-size:13px; width:16px; }
+
+  .kh-btn-enroll {
+    display:block; text-align:center;
+    background:#1a56db; color:#fff;
+    padding:13px; border-radius:10px;
+    font-weight:700; font-size:15px; text-decoration:none;
+    margin-bottom:8px; transition:background .2s;
+  }
+  .kh-btn-enroll:hover { background:#1446b8; color:#fff; }
+  .kh-btn-wish {
+    width:100%; background:#fff; border:2px solid #1a56db;
+    color:#1a56db; padding:9px; border-radius:10px;
+    font-weight:700; font-size:13px; cursor:pointer;
+    margin-bottom:8px; transition:all .2s;
+  }
+  .kh-btn-wish:hover { background:#e8f0fe; }
+  .kh-guarantee { font-size:12px; color:#888; text-align:center; margin:0; }
+  .kh-guarantee i { color:#16a34a; }
+
+  /* Course details */
+  .kh-detail-box { background:#fff; border-radius:12px; padding:15px; box-shadow:0 2px 12px rgba(0,0,0,.07); }
+  .kh-detail-box h5 { font-size:12px; font-weight:800; margin:0 0 10px; color:#1a1a2e; text-transform:uppercase; letter-spacing:.6px; }
+  .kh-detail-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #f5f5f5; font-size:12.5px; }
+  .kh-detail-row:last-child { border-bottom:none; }
+  .kh-detail-row .kh-lbl { color:#888; display:flex; align-items:center; gap:5px; }
+  .kh-detail-row .kh-lbl i { color:#1a56db; }
+  .kh-detail-row .kh-val { font-weight:600; color:#333; }
+
+  /* Share */
+  .kh-share-box { background:#fff; border-radius:12px; padding:15px; box-shadow:0 2px 12px rgba(0,0,0,.07); }
+  .kh-share-box h5 { font-size:12px; font-weight:800; margin:0 0 10px; text-transform:uppercase; letter-spacing:.6px; }
+  .kh-share-icons { display:flex; gap:8px; }
+  .kh-share-btn { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; text-decoration:none; font-size:15px; transition:opacity .2s; }
+  .kh-share-btn:hover { opacity:.8; color:#fff; }
+  .kh-fb{background:#1877f2}.kh-tw{background:#1a1a1a}.kh-li{background:#0a66c2}.kh-em{background:#ea4335}
+
+  /* Responsive */
+  @media (max-width:860px) {
+    .kh-grid { grid-template-columns:1fr; }
+    .kh-right { border-left:none; border-top:1px solid #eaeaea; max-height:none; }
+    .kh-left  { max-height:none; }
+    .kh-skills { grid-template-columns:1fr; }
+    .kh-hero  { grid-template-columns:1fr; }
+    .kh-hero-img img { height:180px; }
+  }
+
+  /* Clickable cards */
+  .course-card { cursor:pointer; transition:transform .2s, box-shadow .2s; }
+  .course-card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,.12) !important; }
+  </style>
+</head>
+
+<body class="courses-page">
+
+  <!-- HEADER -->
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <h1 class="sitename">English Center</h1>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="gioithieu.html">Giới thiệu</a></li>
+          <li><a href="khoahoc.html" class="active">Khóa học</a></li>
+          <li><a href="giaovien.html">Giáo viên</a></li>
+          <li><a href="hocphi.html">Học Phí</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li class="dropdown">
+            <a href="#"><span>Tài nguyên</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="dethithu.html">Đề thi thử</a></li>
+              <li><a href="tailieuonthi.html">Tài liệu ôn thi</a></li>
+              <li><a href="sukien.html">Sự kiện</a></li>
+              <li><a href="404.html">Cộng đồng</a></li>
+            </ul>
+          </li>
+          <li><a href="lienhe.html">Liên hệ</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+      <div class="header-actions d-flex align-items-center">
+        <a class="btn-dangnhap" href="dangnhap.html"><i class="bi bi-person me-1"></i>Đăng Nhập</a>
+        <a class="btn-getstarted" href="dangky.html"><i class="bi bi-pencil-square me-1"></i>Đăng Ký</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Khóa Học</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li class="current">Khóa học</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Courses Section -->
+    <section id="courses-2" class="courses-2 section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row">
+
+          <!-- Sidebar filters -->
+          <div class="col-lg-3">
+            <div class="course-filters" data-aos="fade-right" data-aos-delay="100">
+              <h4 class="filter-title">Lọc Khóa Học</h4>
+
+              <div class="filter-group">
+                <h5>Danh Mục</h5>
+                <div class="filter-options">
+                  <label class="filter-checkbox"><input type="checkbox" checked><span class="checkmark"></span>Tất cả</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Ngữ pháp trọng tâm</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Từ vựng theo chủ đề</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Luyện đề THPTQG</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Phát âm &amp; AI</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Đề thi thử</label>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <h5>Trình Độ</h5>
+                <div class="filter-options">
+                  <label class="filter-checkbox"><input type="checkbox" checked><span class="checkmark"></span>Tất cả</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Mất gốc</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Trung bình</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Khá</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Nâng cao</label>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <h5>Thời Lượng</h5>
+                <div class="filter-options">
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Dưới 5 giờ</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>5–20 giờ</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Trên 20 giờ</label>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <h5>Học Phí</h5>
+                <div class="filter-options">
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Miễn phí</label>
+                  <label class="filter-checkbox"><input type="checkbox"><span class="checkmark"></span>Có phí</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Course grid -->
+          <div class="col-lg-9">
+            <div class="courses-header" data-aos="fade-left" data-aos-delay="100">
+              <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm khóa học....">
+              </div>
+              <div class="sort-dropdown">
+                <select id="sortSelect">
+                  <option value="popular">Sắp xếp: Phổ biến nhất</option>
+                  <option value="newest">Mới nhất</option>
+                  <option value="price-asc">Học phí: Thấp đến Cao</option>
+                  <option value="price-desc">Học phí: Cao đến Thấp</option>
+                  <option value="duration-asc">Thời lượng: Ngắn đến Dài</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="courses-grid" data-aos="fade-up" data-aos-delay="200">
+              <div class="row">
+                <div class="col-12"><div class="text-center py-5 text-muted">Dang tai khoa hoc...</div></div>
+              </div><!-- .row -->
+            </div><!-- .courses-grid -->
+
+            <div class="pagination-wrapper" data-aos="fade-up" data-aos-delay="300">
+              <nav aria-label="Courses pagination">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"><i class="bi bi-chevron-left"></i></a></li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>
+                </ul>
+              </nav>
+            </div>
+
+          </div><!-- .col-lg-9 -->
+        </div><!-- .row -->
+      </div><!-- .container -->
+    </section>
+
+  </main>
+
+  <!-- ════════════════════════════════════════════
+       COURSE DETAIL MODAL
+  ════════════════════════════════════════════ -->
+  <div class="kh-overlay" id="khModal" onclick="khCloseOverlay(event)">
+    <div class="kh-box">
+      <button class="kh-close" onclick="khClose()" aria-label="Đóng"><i class="bi bi-x-lg"></i></button>
+      <div class="kh-grid">
+
+        <!-- LEFT -->
+        <div class="kh-left">
+          <!-- Hero: image + title -->
+          <div class="kh-hero">
+            <div class="kh-hero-img">
+              <img id="kh-img" src="" alt="">
+              <div class="kh-hero-play"><i class="bi bi-play-circle-fill"></i></div>
+            </div>
+            <div class="kh-hero-info">
+              <div class="kh-tags">
+                <span class="kh-tag-cat" id="kh-cat"></span>
+                <span class="kh-tag-lvl" id="kh-lvl"></span>
+              </div>
+              <h2 class="kh-title" id="kh-title"></h2>
+              <p class="kh-short-desc" id="kh-short"></p>
+              <div class="kh-inst-row">
+                <img id="kh-inst-img" class="kh-inst-av" src="" alt="">
+                <div>
+                  <div class="kh-inst-lbl">Giảng Viên</div>
+                  <div class="kh-inst-name" id="kh-inst-name"></div>
+                  <div class="kh-inst-role">Senior Instructor</div>
+                </div>
+                <div class="ms-auto text-end">
+                  <div class="kh-rating-row justify-content-end">
+                    <span class="stars" id="kh-stars-sm"></span>
+                    <span class="num" id="kh-rating-sm"></span>
+                    <span class="cnt" id="kh-rcount-sm"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="kh-tabs">
+            <button class="kh-tab active" onclick="khTab('overview',this)"><i class="bi bi-list-ul"></i>Tổng Quan</button>
+            <button class="kh-tab" onclick="khTab('curriculum',this)"><i class="bi bi-journals"></i>Chương Trình</button>
+            <button class="kh-tab" onclick="khTab('reviews',this)"><i class="bi bi-star"></i>Đánh Giá</button>
+          </div>
+
+          <!-- Pane: Overview -->
+          <div id="kh-tab-overview" class="kh-pane active">
+            <h4>Mô Tả Khóa Học</h4>
+            <p class="kh-desc" id="kh-desc"></p>
+            <h4>Kỹ Năng Sẽ Đạt Được</h4>
+            <div class="kh-skills" id="kh-skills"></div>
+            <h4>Yêu Cầu Đầu Vào</h4>
+            <ul class="kh-reqs" id="kh-reqs"></ul>
+          </div>
+
+          <!-- Pane: Curriculum -->
+          <div id="kh-tab-curriculum" class="kh-pane">
+            <div id="kh-curriculum"></div>
+          </div>
+
+          <!-- Pane: Reviews -->
+          <div id="kh-tab-reviews" class="kh-pane">
+            <div class="kh-rev-summary">
+              <div class="kh-rating-big" id="kh-rating"></div>
+              <div>
+                <div class="kh-stars-big" id="kh-stars"></div>
+                <div class="kh-rev-count" id="kh-rcount"></div>
+                <div style="font-size:12px;color:#aaa;margin-top:2px;">Dựa trên đánh giá của học viên</div>
+              </div>
+            </div>
+            <div id="kh-reviews"></div>
+          </div>
+        </div><!-- .kh-left -->
+
+        <!-- RIGHT -->
+        <div class="kh-right">
+
+          <!-- Price & enroll -->
+          <div class="kh-price-box">
+            <div class="kh-price-row">
+              <span class="kh-price" id="kh-price"></span>
+              <span class="kh-badge-sale" id="kh-badge"></span>
+            </div>
+            <div class="kh-enrolled" id="kh-enrolled"></div>
+
+            <!-- Includes -->
+            <ul class="kh-includes">
+              <li><i class="bi bi-camera-video"></i>Video bài giảng HD</li>
+              <li><i class="bi bi-infinity"></i>Truy cập trọn đời</li>
+              <li><i class="bi bi-download"></i>Tài liệu tải về</li>
+              <li><i class="bi bi-patch-check"></i>Chứng chỉ hoàn thành</li>
+              <li><i class="bi bi-phone"></i>Học trên mobile</li>
+            </ul>
+
+            <a href="dangky.html" class="kh-btn-enroll">Đăng Ký Ngay</a>
+            <p class="kh-guarantee"><i class="bi bi-shield-check"></i> Hoàn tiền trong 30 ngày</p>
+          </div>
+
+          <!-- Course details -->
+          <div class="kh-detail-box">
+            <h5>Chi Tiết Khóa Học</h5>
+            <div class="kh-detail-row"><span class="kh-lbl"><i class="bi bi-clock"></i>Thời lượng</span><span class="kh-val" id="kh-dur"></span></div>
+            <div class="kh-detail-row"><span class="kh-lbl"><i class="bi bi-bar-chart"></i>Trình độ</span><span class="kh-val" id="kh-lvl2"></span></div>
+            <div class="kh-detail-row"><span class="kh-lbl"><i class="bi bi-translate"></i>Ngôn ngữ</span><span class="kh-val">Tiếng Việt</span></div>
+            <div class="kh-detail-row"><span class="kh-lbl"><i class="bi bi-patch-question"></i>Bài kiểm tra</span><span class="kh-val" id="kh-quiz"></span></div>
+            <div class="kh-detail-row"><span class="kh-lbl"><i class="bi bi-pencil-square"></i>Bài tập</span><span class="kh-val" id="kh-assign"></span></div>
+            <div class="kh-detail-row"><span class="kh-lbl"><i class="bi bi-calendar3"></i>Cập nhật</span><span class="kh-val" id="kh-updated"></span></div>
+          </div>
+
+          <!-- Share -->
+          <div class="kh-share-box">
+            <h5>Chia Sẻ Khóa Học</h5>
+            <div class="kh-share-icons">
+              <a href="#" class="kh-share-btn kh-fb"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="kh-share-btn kh-tw"><i class="bi bi-twitter-x"></i></a>
+              <a href="#" class="kh-share-btn kh-li"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="kh-share-btn kh-em"><i class="bi bi-envelope-fill"></i></a>
+            </div>
+          </div>
+
+        </div><!-- .kh-right -->
+      </div><!-- .kh-grid -->
+    </div><!-- .kh-box -->
+  </div><!-- .kh-overlay -->
+
+  <!-- FOOTER -->
+  <footer id="footer" class="footer accent-background">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">English Center</span>
+          </a>
+          <p>Nền tảng ôn thi Tiếng Anh THPTQG chuyên biệt, đồng hành cùng học sinh lớp 12 trên hành trình chinh phục kỳ thi quan trọng nhất.</p>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Thông tin</h4>
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="gioithieu.html">Về chúng tôi</a></li>
+            <li><a href="khoahoc.html">Khóa học</a></li>
+            <li><a href="giaovien.html">Giáo viên</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="dieukhoan.html">Điều khoản dịch vụ</a></li>
+            <li><a href="quyenriengtu.html">Chính sách bảo mật</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Khóa học</h4>
+          <ul>
+            <li><a href="khoahoc.html">Ngữ Pháp Trọng Tâm</a></li>
+            <li><a href="khoahoc.html">Luyện Đề THPTQG</a></li>
+            <li><a href="khoahoc.html">Từ Vựng Theo Chủ Đề</a></li>
+            <li><a href="khoahoc.html">Phát âm & Speaking</a></li>
+            <li><a href="khoahoc.html">Ôn Thi Cấp Tốc</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Liên Hệ</h4>
+          <p>182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội</p>
+          <p class="mt-4"><strong>Phone:</strong> <span>+1 34567892</span></p>
+          <p><strong>Email:</strong> <span>Nhom3@englishcenter.edu.vn</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="container copyright text-center mt-4">
+      <p>&copy; <span>2026</span> <strong class="px-1 sitename">English Center</strong> <span>All Rights Reserved</span></p>
+    </div>
+  </footer>
+
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+
+  <!-- Vendor JS -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/js/app/template/main.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if(typeof AOS!=='undefined') AOS.init({duration:600,easing:'ease-in-out',once:true});
+    });
+    setTimeout(function(){
+      var p=document.getElementById('preloader');
+      if(p) p.style.display='none';
+    }, 800);
+  </script>
+  <script src="assets/js/app/features/public/courses.js?v=20260604-api-public"></script>
+  <script src="assets/js/app/core/site-integration.js?v=20260530-integrated-db"></script>
+  <script src="assets/js/app/core/auth.js?v=20260530-session-db"></script>
+</body>
+</html>

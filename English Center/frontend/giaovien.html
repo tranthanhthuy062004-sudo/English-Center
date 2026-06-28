@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>English Center - Nhóm 3</title>
+  <meta name="description" content="Đội ngũ giáo viên English Center có kinh nghiệm luyện thi Tiếng Anh THPTQG.">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/logo.1.jpg" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Learner
+  * Template URL: https://bootstrapmade.com/learner-bootstrap-course-template/
+  * Updated: Jul 08 2025 with Bootstrap v5.3.7
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="instructors-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.webp" alt=""> -->
+        <h1 class="sitename">English Center</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="gioithieu.html">Giới thiệu</a></li>
+          <li><a href="khoahoc.html">Khóa học</a></li>
+          <li><a href="giaovien.html"  class="active">Giáo viên</a></li>
+          <li><a href="hocphi.html">Học Phí</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li class="dropdown"><a href="#"><span>Tài nguyên</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="dethithu.html">Đề thi thử</a></li>
+              <li><a href="tailieuonthi.html">Tài liệu ôn thi</a></li>
+              <li><a href="sukien.html">Sự kiện</a></li>
+              <li><a href="404.html">Cộng đồng</a></li>
+            </ul>
+          </li>
+
+          <li><a href="lienhe.html">Liên hệ</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <div class="header-actions d-flex align-items-center">
+        <a class="btn-dangnhap" href="dangnhap.html"><i class="bi bi-person me-1"></i>Đăng Nhập</a>
+        <a class="btn-getstarted" href="dangky.html"><i class="bi bi-pencil-square me-1"></i>Đăng Ký</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Giáo Viên</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li class="current">Giáo viên</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Instructors Section -->
+    <section id="instructors" class="instructors section">
+
+      <!-- Filter Bar -->
+      <div class="container mb-4" data-aos="fade-up" data-aos-delay="50">
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <span class="text-muted me-1" style="font-size:.9rem;">Lọc theo:</span>
+          <button class="btn btn-sm btn-primary filter-btn" onclick="filterTeachers('all', this)">Tất cả</button>
+          <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterTeachers('nguphap', this)">Ngữ pháp</button>
+          <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterTeachers('tuvung', this)">Từ vựng &amp; Phát âm</button>
+          <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterTeachers('luyen-de', this)">Luyện đề</button>
+          <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterTeachers('doc-hieu', this)">Đọc hiểu</button>
+          <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterTeachers('on-thi', this)">Ôn thi cấp tốc</button>
+        </div>
+      </div>
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4" id="teachers-row">
+          <div class="col-12"><div class="text-center py-5 text-muted">Dang tai giao vien...</div></div>
+        </div>
+
+      </div>
+
+    </section><!-- /Instructors Section -->
+
+  </main>
+
+  <!-- ===== MODAL HỒ SƠ GIÁO VIÊN ===== -->
+  <div class="modal fade" id="teacherModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content" style="border:none;border-radius:12px;overflow:hidden;">
+
+        <!-- HERO BANNER -->
+        <div class="instructor-hero-banner" style="position:relative;min-height:180px;overflow:hidden;">
+          <div class="hero-background" style="position:absolute;inset:0;">
+            <img id="m-bg" src="assets/img/education/showcase-4.webp" alt="" style="width:100%;height:100%;object-fit:cover;">
+            <div class="hero-overlay" style="position:absolute;inset:0;background:rgba(20,40,80,0.72);"></div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+            style="position:absolute;top:1rem;right:1rem;z-index:10;"></button>
+          <div class="hero-content" style="position:relative;z-index:2;display:flex;align-items:flex-end;gap:1.2rem;padding:1.5rem 1.8rem;">
+            <div class="instructor-avatar" style="position:relative;flex-shrink:0;">
+              <img id="m-avatar" src="" alt="" style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.7);">
+              <div class="status-badge" style="position:absolute;bottom:2px;right:-4px;background:var(--accent-color,#e84444);color:#fff;border-radius:20px;font-size:.68rem;padding:.15rem .5rem;display:flex;align-items:center;gap:.25rem;">
+                <i class="bi bi-patch-check-fill"></i><span>Verified</span>
+              </div>
+            </div>
+            <div class="instructor-info" style="color:#fff;">
+              <h4 id="m-name" style="margin:0 0 .2rem;font-weight:700;color:#fff;"></h4>
+              <p id="m-specialty" style="margin:0 0 .5rem;opacity:.8;font-size:.83rem;letter-spacing:.8px;"></p>
+              <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.55rem;">
+                <span id="m-cred1" class="credential" style="background:rgba(255,255,255,.15);color:#fff;border-radius:4px;padding:.15rem .55rem;font-size:.75rem;"></span>
+                <span id="m-cred2" class="credential" style="background:rgba(255,255,255,.15);color:#fff;border-radius:4px;padding:.15rem .55rem;font-size:.75rem;"></span>
+                <span id="m-cred3" class="credential" style="background:rgba(255,255,255,.15);color:#fff;border-radius:4px;padding:.15rem .55rem;font-size:.75rem;"></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:.5rem;">
+                <span id="m-stars" style="color:#ffc107;font-size:.85rem;"></span>
+                <span id="m-rating-text" style="font-size:.8rem;opacity:.85;"></span>
+              </div>
+            </div>
+            <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;">
+              <a href="lienhe.html" class="btn-contact" style="background:var(--accent-color,#e84444);color:#fff;border:none;border-radius:6px;padding:.4rem .9rem;font-size:.82rem;text-decoration:none;display:flex;align-items:center;gap:.4rem;">
+                <i class="bi bi-envelope"></i> Liên hệ
+              </a>
+              <div style="display:flex;gap:.6rem;">
+                <a href="#" style="color:rgba(255,255,255,.7);font-size:1.1rem;"><i class="bi bi-linkedin"></i></a>
+                <a href="#" style="color:rgba(255,255,255,.7);font-size:1.1rem;"><i class="bi bi-twitter-x"></i></a>
+                <a href="#" style="color:rgba(255,255,255,.7);font-size:1.1rem;"><i class="bi bi-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BODY: Tabs + Sidebar -->
+        <div class="modal-body p-0" style="background:#f8f9fa;">
+          <div class="container-fluid p-0">
+            <div class="row g-0">
+
+              <!-- LEFT: TABS -->
+              <div class="col-lg-8 p-4">
+                <ul class="nav nav-tabs custom-tabs mb-0" role="tablist" id="m-tabs" style="border-bottom:2px solid #e4e8ef;">
+                  <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#mt-about" type="button"><i class="bi bi-person me-1"></i>Giới thiệu</button></li>
+                  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#mt-exp" type="button"><i class="bi bi-briefcase me-1"></i>Kinh nghiệm</button></li>
+                  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#mt-courses" type="button"><i class="bi bi-book me-1"></i>Khóa học</button></li>
+                  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#mt-reviews" type="button"><i class="bi bi-star me-1"></i>Đánh giá</button></li>
+                </ul>
+                <div class="tab-content custom-tab-content pt-4">
+
+                  <!-- TAB: GIỚI THIỆU -->
+                  <div class="tab-pane fade show active" id="mt-about">
+                    <div class="bio-section mb-4">
+                      <h5 class="fw-bold mb-3">Hồ sơ cá nhân</h5>
+                      <p id="m-bio" style="color:#555;line-height:1.8;"></p>
+                    </div>
+                    <div class="expertise-grid">
+                      <h5 class="fw-bold mb-3">Chuyên môn</h5>
+                      <div class="skills-grid" id="m-skills" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;"></div>
+                    </div>
+                  </div>
+
+                  <!-- TAB: KINH NGHIỆM -->
+                  <div class="tab-pane fade" id="mt-exp">
+                    <div class="experience-grid" id="m-experience"></div>
+                  </div>
+
+                  <!-- TAB: KHÓA HỌC -->
+                  <div class="tab-pane fade" id="mt-courses">
+                    <div class="courses-grid" id="m-courses-list"></div>
+                  </div>
+
+                  <!-- TAB: ĐÁNH GIÁ -->
+                  <div class="tab-pane fade" id="mt-reviews">
+                    <div class="reviews-container" id="m-reviews-list"></div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- RIGHT: SIDEBAR -->
+              <div class="col-lg-4 p-4" style="border-left:1px solid #e4e8ef;">
+
+                <!-- Teaching Impact -->
+                <div class="stats-widget mb-4">
+                  <h6 class="fw-bold mb-3">Teaching Impact</h6>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+                    <div class="stat-box" style="background:#fff;border-radius:10px;padding:.9rem;text-align:center;border:1px solid #e4e8ef;">
+                      <i class="bi bi-people" style="font-size:1.3rem;color:var(--accent-color,#e84444);display:block;margin-bottom:.3rem;"></i>
+                      <strong id="m-s-students" style="display:block;font-size:1.05rem;"></strong>
+                      <small class="text-muted">Học sinh</small>
+                    </div>
+                    <div class="stat-box" style="background:#fff;border-radius:10px;padding:.9rem;text-align:center;border:1px solid #e4e8ef;">
+                      <i class="bi bi-book" style="font-size:1.3rem;color:var(--accent-color,#e84444);display:block;margin-bottom:.3rem;"></i>
+                      <strong id="m-s-courses" style="display:block;font-size:1.05rem;"></strong>
+                      <small class="text-muted">Khóa học</small>
+                    </div>
+                    <div class="stat-box" style="background:#fff;border-radius:10px;padding:.9rem;text-align:center;border:1px solid #e4e8ef;">
+                      <i class="bi bi-award" style="font-size:1.3rem;color:var(--accent-color,#e84444);display:block;margin-bottom:.3rem;"></i>
+                      <strong id="m-s-rating" style="display:block;font-size:1.05rem;"></strong>
+                      <small class="text-muted">Đánh giá</small>
+                    </div>
+                    <div class="stat-box" style="background:#fff;border-radius:10px;padding:.9rem;text-align:center;border:1px solid #e4e8ef;">
+                      <i class="bi bi-clock" style="font-size:1.3rem;color:var(--accent-color,#e84444);display:block;margin-bottom:.3rem;"></i>
+                      <strong id="m-s-years" style="display:block;font-size:1.05rem;"></strong>
+                      <small class="text-muted">Kinh nghiệm</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Thành tích -->
+                <div class="achievements-widget mb-4">
+                  <h6 class="fw-bold mb-3">Thành tích & Ghi nhận</h6>
+                  <div id="m-achievements-list"></div>
+                </div>
+
+                <!-- Liên hệ -->
+                <div class="contact-widget">
+                  <h6 class="fw-bold mb-3">Liên hệ</h6>
+                  <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.85rem;color:#555;">
+                    <div style="display:flex;align-items:center;gap:.6rem;">
+                      <i class="bi bi-envelope" style="color:var(--accent-color,#e84444);width:18px;"></i>
+                      <span id="m-email"></span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:.6rem;">
+                      <i class="bi bi-telephone" style="color:var(--accent-color,#e84444);width:18px;"></i>
+                      <span>+84 (0) 987 654 321</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:.6rem;">
+                      <i class="bi bi-geo-alt" style="color:var(--accent-color,#e84444);width:18px;"></i>
+                      <span>English Center, 182 Lương Thế Vinh</span>
+                    </div>
+                  </div>
+                  <div style="margin-top:1rem;background:#f0f4ff;border-radius:8px;padding:.8rem 1rem;">
+                    <strong style="font-size:.82rem;display:block;margin-bottom:.3rem;">Giờ tiếp học sinh</strong>
+                    <p style="margin:0;font-size:.82rem;color:#555;" id="m-hours"></p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- ===== END MODAL ===== -->
+
+  <footer id="footer" class="footer accent-background">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">English Center</span>
+          </a>
+          <p>Nền tảng ôn thi Tiếng Anh THPTQG chuyên biệt, đồng hành cùng học sinh lớp 12 trên hành trình chinh phục kỳ thi quan trọng nhất.</p>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Thông tin</h4>
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="gioithieu.html">Về chúng tôi</a></li>
+            <li><a href="khoahoc.html">Khóa học</a></li>
+            <li><a href="giaovien.html">Giáo viên</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="dieukhoan.html">Điều khoản dịch vụ</a></li>
+            <li><a href="quyenriengtu.html">Chính sách bảo mật</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Khóa học</h4>
+          <ul>
+            <li><a href="khoahoc.html">Ngữ Pháp Trọng Tâm</a></li>
+            <li><a href="khoahoc.html">Luyện Đề THPTQG</a></li>
+            <li><a href="khoahoc.html">Từ Vựng Theo Chủ Đề</a></li>
+            <li><a href="khoahoc.html">Phát âm & Speaking</a></li>
+            <li><a href="khoahoc.html">Ôn Thi Cấp Tốc</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Liên Hệ</h4>
+          <p>182 Lương Thế Vinh, Thanh Xuân Bắc, Thanh Xuân, Hà Nội</p>
+          <p class="mt-4"><strong>Phone:</strong> <span>+1 34567892</span></p>
+          <p><strong>Email:</strong> <span>Nhom3@englishcenter.edu.vn</span></p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>2026</span> <strong class="px-1 sitename">English Center</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/app/template/main.js"></script>
+  <script src="assets/js/app/features/public/teachers.js?v=20260604-api-public"></script>
+  <script src="assets/js/app/core/site-integration.js?v=20260530-integrated-db"></script>
+  <script src="assets/js/app/core/auth.js?v=20260530-session-db"></script>
+</body>
+</html>

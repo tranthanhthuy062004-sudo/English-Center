@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+ <meta charset="utf-8">
+ <meta content="width=device-width, initial-scale=1.0" name="viewport">
+ <title>Dashboard Học Sinh — English Center</title>
+ <link href="assets/img/favicon.png" rel="icon">
+ <link href="https://fonts.googleapis.com/css2family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+ <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+ <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+ <style>
+ :root {
+ --blue: #1a6ef5;
+ --blue-dark: #1254cc;
+ --blue-light: #e8f0fe;
+ --blue-mid: #c2d7fd;
+ --green: #16a34a;
+ --green-light: #dcfce7;
+ --orange: #ea580c;
+ --orange-light:#fff0e6;
+ --purple: #7c3aed;
+ --purple-light:#f3f0ff;
+ --red: #dc2626;
+ --red-light: #fee2e2;
+ --yellow: #ca8a04;
+ --yellow-light:#fef9c3;
+ --text: #0f172a;
+ --text-muted: #64748b;
+ --text-light: #94a3b8;
+ --border: #e2e8f0;
+ --bg: #f1f5f9;
+ --bg-card: #ffffff;
+ --sidebar-w: 255px;
+ --radius: 14px;
+ --radius-sm: 8px;
+ }
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ body { background: var(--bg); font-family: 'Be Vietnam Pro', sans-serif; color: var(--text); font-size: 14px; line-height: 1.6; }
+
+ /* SIDEBAR */
+ .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--bg-card); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 200; overflow: hidden; }
+ .sidebar-header { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+ .logo-text { font-size: 17px; font-weight: 800; color: var(--blue); letter-spacing: -0.3px; text-decoration: none; display: block; }
+ .role-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--blue-light); color: var(--blue); border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; margin-top: 5px; }
+
+ .sidebar-xp { padding: 14px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+ .xp-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+ .xp-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); }
+ .xp-val { font-size: 12px; font-weight: 800; color: var(--blue); font-family: 'JetBrains Mono', monospace; }
+ .xp-bar { height: 6px; background: var(--blue-light); border-radius: 10px; overflow: hidden; }
+ .xp-fill { height: 100%; background: linear-gradient(90deg, var(--blue), #60a5fa); border-radius: 10px; transition: width 1.2s ease; }
+
+ .sidebar-streak { padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+ .streak-fire { font-size: 22px; line-height: 1; display: inline-block; transition: transform 0.3s ease; }
+ .streak-count { font-size: 20px; font-weight: 900; color: var(--orange); font-family: 'JetBrains Mono', monospace; line-height: 1; }
+ .streak-label { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+
+ .sidebar-nav { flex: 1; overflow-y: auto; padding: 10px 0; }
+ .sidebar-nav::-webkit-scrollbar { width: 3px; }
+ .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); }
+ .nav-group-label { font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--text-light); padding: 12px 20px 5px; }
+ .nav-link { display: flex; align-items: center; gap: 10px; padding: 9px 20px; color: var(--text-muted); font-size: 13.5px; font-weight: 500; text-decoration: none; border-right: 3px solid transparent; transition: all 0.15s; }
+ .nav-link i { font-size: 16px; width: 18px; text-align: center; flex-shrink: 0; }
+ .nav-link:hover { background: var(--bg); color: var(--blue); }
+ .nav-link.active { background: var(--blue-light); color: var(--blue); font-weight: 700; border-right-color: var(--blue); }
+
+ .sidebar-bottom { padding: 14px 20px; border-top: 1px solid var(--border); flex-shrink: 0; }
+ .btn-logout { display: flex; align-items: center; gap: 8px; color: var(--red); font-size: 13.5px; font-weight: 600; background: none; border: none; cursor: pointer; padding: 6px 0; transition: opacity 0.15s; width: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+ .btn-logout:hover { opacity: 0.7; }
+
+ /* MAIN */
+ .main { margin-left: var(--sidebar-w); min-height: 100vh; padding: 28px 28px 48px; }
+ .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; gap: 16px; }
+ .topbar h1 { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.4px; }
+ .topbar p { font-size: 13.5px; color: var(--text-muted); margin-top: 3px; }
+ .topbar-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+ .btn-primary { display: inline-flex; align-items: center; gap: 7px; background: var(--blue); color: #fff; border: none; border-radius: var(--radius-sm); padding: 9px 18px; font-size: 13.5px; font-weight: 700; font-family: 'Be Vietnam Pro', sans-serif; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
+ .btn-primary:hover { background: var(--blue-dark); color: #fff; }
+
+ /* CARDS */
+ .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+ .card-title { font-size: 13.5px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; margin-bottom: 16px; }
+
+ /* STAT GRID */
+ .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+ .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+ .stat-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+ .stat-value { font-size: 24px; font-weight: 900; color: var(--text-light); line-height: 1; font-family: 'JetBrains Mono', monospace; }
+ .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+
+ /* TWO COL */
+ .two-col { display: grid; grid-template-columns: 1fr 340px; gap: 20px; margin-bottom: 20px; }
+
+ /* EMPTY STATE */
+ .empty-state {
+ display: flex; flex-direction: column; align-items: center; justify-content: center;
+ padding: 48px 24px; text-align: center;
+ }
+ .empty-icon {
+ width: 80px; height: 80px; border-radius: 50%;
+ display: flex; align-items: center; justify-content: center;
+ font-size: 34px; margin-bottom: 16px;
+ }
+ .empty-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+ .empty-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 260px; margin-bottom: 18px; }
+ .empty-btn {
+ display: inline-flex; align-items: center; gap: 7px;
+ background: var(--blue); color: #fff; border: none; border-radius: var(--radius-sm);
+ padding: 10px 20px; font-size: 13px; font-weight: 700;
+ font-family: 'Be Vietnam Pro', sans-serif; cursor: pointer; text-decoration: none;
+ transition: background 0.15s, transform 0.15s;
+ }
+ .empty-btn:hover { background: var(--blue-dark); transform: translateY(-1px); color: #fff; }
+
+ /* WELCOME BANNER */
+ .welcome-banner {
+ background: linear-gradient(120deg,#0f172a 0%,#1e1b4b 50%,#1e3a5f 100%);
+ border-radius: var(--radius); padding: 28px 32px;
+ display: flex; align-items: center; justify-content: space-between;
+ gap: 24px; margin-bottom: 20px; position: relative; overflow: hidden;
+ border: 1px solid rgba(255,255,255,0.07);
+ }
+ .welcome-banner::before {
+ content:''; position:absolute; top:-40px; right:-40px; width:220px; height:220px;
+ background:radial-gradient(circle,rgba(26,110,245,0.35) 0%,transparent 70%);
+ pointer-events:none;
+ }
+ .welcome-banner::after {
+ content:''; position:absolute; right:120px; top:50%; transform:translateY(-50%);
+ font-size:80px; opacity:0.07; pointer-events:none;
+ }
+ .welcome-banner h3 { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 6px; position: relative; }
+ .welcome-banner p { font-size: 13.5px; color: rgba(255,255,255,0.65); position: relative; line-height: 1.6; max-width: 420px; }
+ .btn-banner {
+ background: #fff; color: var(--blue);
+ border: none; border-radius: var(--radius-sm);
+ padding: 12px 24px; font-size: 14px; font-weight: 800;
+ cursor: pointer; font-family: 'Be Vietnam Pro', sans-serif;
+ white-space: nowrap; flex-shrink: 0; position: relative;
+ transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+ box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+ }
+ .btn-banner:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); color: var(--blue); }
+
+
+ /* FADE IN */
+ .fi { opacity: 0; transform: translateY(12px); animation: fu 0.4s ease forwards; }
+ @keyframes fu { to { opacity:1; transform:translateY(0); } }
+ .fi:nth-child(1){animation-delay:0.05s} .fi:nth-child(2){animation-delay:0.12s}
+ .fi:nth-child(3){animation-delay:0.19s} .fi:nth-child(4){animation-delay:0.26s}
+ .fi:nth-child(5){animation-delay:0.33s}
+
+ /* PULSE on CTA */
+ @keyframes pulse-ring {
+ 0% { box-shadow: 0 0 0 0 rgba(26,110,245,0.4); }
+ 70% { box-shadow: 0 0 0 12px rgba(26,110,245,0); }
+ 100% { box-shadow: 0 0 0 0 rgba(26,110,245,0); }
+ }
+ .pulse { animation: pulse-ring 2s infinite; }
+
+ @media(max-width:1100px){ .two-col{grid-template-columns:1fr;} .stat-grid{grid-template-columns:repeat(2,1fr);} }
+ @media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main{margin-left:0;padding:16px;} }
+
+ .btn-primary { display: inline-flex; align-items: center; gap: 7px; background: var(--blue); color: #fff; border: none; border-radius: var(--radius-sm); padding: 9px 18px; font-size: 13.5px; font-weight: 700; font-family: 'Be Vietnam Pro', sans-serif; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
+ .btn-primary:hover { background: var(--blue-dark); color: #fff; }
+ .btn-notif { width: 38px; height: 38px; border-radius: var(--radius-sm); background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+ .btn-notif .dot { position: absolute; top: 8px; right: 8px; width: 7px; height: 7px; background: var(--red); border-radius: 50%; border: 1.5px solid var(--bg-card); }
+
+ /* CARDS */
+ .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+ .card-title { font-size: 13.5px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; margin-bottom: 16px; }
+
+ /* STAT GRID */
+ .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+ .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.15s, transform 0.15s; }
+ .stat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); transform: translateY(-1px); }
+ .stat-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+ .stat-value { font-size: 24px; font-weight: 900; color: var(--text); line-height: 1; font-family: 'JetBrains Mono', monospace; }
+ .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+ .stat-delta { font-size: 11px; font-weight: 600; margin-top: 2px; }
+ .delta-up { color: var(--green); }
+
+ /* AI BANNER */
+ .ai-banner { background: linear-gradient(120deg,#0f172a 0%,#1e1b4b 50%,#1e3a5f 100%); border-radius: var(--radius); padding: 22px 26px; display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 20px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+ .ai-banner::before { content:''; position:absolute; top:-40px; right:-40px; width:180px; height:180px; background:radial-gradient(circle,rgba(26,110,245,0.3) 0%,transparent 70%); pointer-events:none; }
+ .ai-banner h3 { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 5px; position: relative; }
+ .ai-banner p { font-size: 13px; color: rgba(255,255,255,0.6); position: relative; }
+ .btn-ai { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); border-radius: var(--radius-sm); padding: 9px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Be Vietnam Pro', sans-serif; white-space: nowrap; flex-shrink: 0; position: relative; transition: background 0.2s; }
+ .btn-ai:hover { background: rgba(255,255,255,0.2); }
+
+ /* TWO COL */
+ .two-col { display: grid; grid-template-columns: 1fr 340px; gap: 20px; margin-bottom: 20px; }
+ .three-col { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 20px; }
+
+ /* COURSE */
+ .course-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+ .course-item:last-child { border-bottom: none; padding-bottom: 0; }
+ .course-thumb { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; color: #fff; flex-shrink: 0; }
+ .course-name { font-size: 13.5px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .course-meta { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
+ .prog-bg { height: 5px; background: var(--border); border-radius: 10px; overflow: hidden; margin-top: 7px; }
+ .prog-fill { height: 100%; border-radius: 10px; transition: width 1.2s ease; }
+ .btn-continue { font-size: 12px; font-weight: 700; color: var(--blue); background: var(--blue-light); border: none; border-radius: 6px; padding: 5px 12px; cursor: pointer; white-space: nowrap; font-family: 'Be Vietnam Pro', sans-serif; text-decoration: none; flex-shrink: 0; transition: background 0.15s; }
+ .btn-continue:hover { background: var(--blue-mid); color: var(--blue); }
+
+ /* SCORE TABLE */
+ .score-table { width: 100%; border-collapse: collapse; }
+ .score-table th { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; padding: 0 0 10px; text-align: left; border-bottom: 1px solid var(--border); }
+ .score-table td { padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
+ .score-table tr:last-child td { border-bottom: none; }
+ .score-table td:first-child { font-weight: 600; color: var(--text); }
+ .score-table td:not(:first-child) { color: var(--text-muted); }
+ .score-table th:nth-child(2), .score-table td:nth-child(2) { text-align: center; }
+ .score-table th:nth-child(3), .score-table td:nth-child(3) { text-align: center; }
+ .score-pill { display: inline-block; border-radius: 20px; padding: 2px 10px; font-size: 12.5px; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+ .s-high { background: var(--green-light); color: var(--green); }
+ .s-mid { background: var(--yellow-light); color: var(--yellow); }
+ .s-low { background: var(--red-light); color: var(--red); }
+
+ /* UPCOMING */
+ .upcoming-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+ .upcoming-item:last-child { border-bottom: none; }
+ .udot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+ .ubadge { margin-left: auto; font-size: 11px; font-weight: 700; border-radius: 20px; padding: 2px 8px; align-self: flex-start; flex-shrink: 0; }
+
+ /* WEAKNESS */
+ .weakness-item { margin-bottom: 13px; }
+ .weakness-item:last-child { margin-bottom: 0; }
+ .weakness-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+ .weakness-name { font-size: 13px; font-weight: 600; color: var(--text); }
+ .wlevel { font-size: 11.5px; font-weight: 700; border-radius: 20px; padding: 1px 8px; }
+ .wl-weak { background: var(--red-light); color: var(--red); }
+ .wl-mid { background: var(--yellow-light); color: var(--yellow); }
+ .wl-ok { background: var(--green-light); color: var(--green); }
+ .tribar { height: 6px; background: var(--border); border-radius: 10px; overflow: hidden; }
+ .tribar-fill { height: 100%; border-radius: 10px; transition: width 1.2s ease; }
+
+ /* BADGES */
+ .badges-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+ .badge-item { display: flex; flex-direction: column; align-items: center; padding: 14px 8px; border-radius: 10px; border: 1.5px solid var(--border); text-align: center; cursor: default; transition: border-color 0.15s, transform 0.15s; }
+ .badge-item:hover { transform: translateY(-2px); border-color: var(--blue); }
+ .badge-item.locked { opacity: 0.35; filter: grayscale(1); }
+ .badge-icon { font-size: 24px; margin-bottom: 6px; line-height: 1; }
+ .badge-name { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+ .badge-desc { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+ /* LEADERBOARD */
+ .tab-row { display: flex; gap: 6px; margin-bottom: 14px; }
+ .tab-btn { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1.5px solid var(--border); background: none; cursor: pointer; font-family: 'Be Vietnam Pro', sans-serif; color: var(--text-muted); transition: all 0.15s; }
+ .tab-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+ .tab-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+ .lb-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+ .lb-item:last-child { border-bottom: none; }
+ .lb-item.me { background: var(--blue-light); border-radius: 8px; padding: 9px 10px; margin: 0 -10px; }
+ .lb-rank { width: 24px; font-size: 13px; font-weight: 800; color: var(--text-muted); text-align: center; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+ .lb-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+ .lb-name { flex: 1; font-size: 13px; font-weight: 600; color: var(--text); }
+ .lb-name.me-name { color: var(--blue); }
+ .lb-xp { font-size: 12.5px; font-weight: 800; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+
+ /* FADE IN */
+ .fi { opacity: 0; transform: translateY(10px); animation: fu 0.35s ease forwards; }
+ @keyframes fu { to { opacity:1; transform:translateY(0); } }
+ .fi:nth-child(1){animation-delay:0.05s} .fi:nth-child(2){animation-delay:0.1s} .fi:nth-child(3){animation-delay:0.15s} .fi:nth-child(4){animation-delay:0.2s}
+
+ @media(max-width:1100px){ .two-col{grid-template-columns:1fr;} .stat-grid{grid-template-columns:repeat(2,1fr);} }
+ @media(max-width:768px){ .sidebar{transform:translateX(-100%);} .main{margin-left:0;padding:16px;} .three-col{grid-template-columns:1fr;} } </style>
+<style>
+ /* ── Đề thi thử: styles từ dethithu.html ── */
+ #dt-page-list { display:block; }
+ #dt-page-exam { display:none; }
+ #dt-page-result { display:none; }
+
+ .dt-banner {
+ background:linear-gradient(90deg,#1a3fbf 0%,#4a2da8 40%,#8b1a4a 70%,#c0392b 100%);
+ border-radius:16px; padding:1.2rem 2rem; color:#fff;
+ display:flex; gap:2.5rem; flex-wrap:wrap; align-items:center;
+ }
+ .dt-banner .si .n { font-size:1.55rem; font-weight:900; display:block; line-height:1.1; }
+ .dt-banner .si .l { font-size:.73rem; opacity:.85; }
+
+ .dt-filterbar { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-bottom:1.5rem; }
+ .dt-filter-btn {
+ background:#f5f6f8; border:1.5px solid #e8ecf0; border-radius:22px;
+ padding:5px 16px; font-size:.82rem; font-weight:600; cursor:pointer;
+ transition:all .2s; color:#555; white-space:nowrap;
+ }
+ .dt-filter-btn.active, .dt-filter-btn:hover {
+ background:#2d6ef5; color:#fff; border-color:#2d6ef5;
+ }
+ .dt-search-wrap { position:relative; }
+ .dt-search-wrap i { position:absolute; left:.8rem; top:50%; transform:translateY(-50%); color:#aaa; pointer-events:none; font-size:.85rem; }
+ .dt-search-wrap input {
+ padding:.38rem .75rem .38rem 2.1rem; border:1.5px solid #e0e4ea;
+ border-radius:22px; font-size:.84rem; height:36px; width:220px; transition:border-color .2s;
+ font-family:'Be Vietnam Pro',sans-serif;
+ }
+ .dt-search-wrap input:focus { outline:none; border-color:#2d6ef5; }
+
+ .exam-card {
+ background:#fff; border:1.5px solid #e8ecf0; border-radius:14px;
+ overflow:hidden; transition:transform .2s,box-shadow .2s,border-color .2s;
+ height:100%; display:flex; flex-direction:column;
+ }
+ .exam-card:hover { transform:translateY(-4px); box-shadow:0 10px 30px rgba(232,68,68,.12); border-color:#2d6ef5; }
+ .exam-thumb { position:relative; height:130px; background:#1a1a2e; overflow:hidden; }
+ .exam-thumb img { width:100%; height:100%; object-fit:cover; opacity:.75; transition:opacity .2s; }
+ .exam-card:hover .exam-thumb img { opacity:.5; }
+ .ex-year { position:absolute; top:9px; left:9px; background:rgba(0,0,0,.6); color:#fff; font-size:.67rem; font-weight:700; padding:.18rem .5rem; border-radius:5px; letter-spacing:.4px; }
+ .ex-level { position:absolute; top:9px; right:9px; font-size:.67rem; font-weight:700; padding:.18rem .5rem; border-radius:5px; }
+ .lvl-easy { background:#d1fae5; color:#065f46; }
+ .lvl-medium { background:#fef3c7; color:#92400e; }
+ .lvl-hard { background:#fee2e2; color:#991b1b; }
+
+ .exam-body { padding:.9rem 1rem 1rem; flex:1; display:flex; flex-direction:column; }
+ .exam-body h5 { font-size:.93rem; font-weight:800; color:#1a1a2e; margin:0 0 .3rem; line-height:1.35; }
+ .exam-source { font-size:.73rem; color:#999; margin-bottom:.65rem; }
+ .exam-meta { display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:.8rem; }
+ .exam-meta span { font-size:.73rem; color:#666; background:#f5f6f8; padding:.18rem .5rem; border-radius:20px; display:flex; align-items:center; gap:.28rem; }
+ .exam-meta span i { color:#2d6ef5; font-size:.68rem; }
+ .exam-footer { display:flex; align-items:center; justify-content:space-between; padding-top:.7rem; border-top:1px solid #f0f0f0; margin-top:auto; }
+ .exam-attempts { font-size:.73rem; color:#aaa; display:flex; align-items:center; gap:.3rem; }
+ .exam-attempts i { color:#2d6ef5; }
+ .tag-free { background:#d1fae5; color:#065f46; font-size:.66rem; font-weight:700; padding:.1rem .42rem; border-radius:4px; }
+ .tag-pro { background:#ede9fe; color:#5b21b6; font-size:.66rem; font-weight:700; padding:.1rem .42rem; border-radius:4px; }
+ .btn-start {
+ background:#2d6ef5; color:#fff; border:none; border-radius:8px;
+ padding:.32rem .85rem; font-size:.78rem; font-weight:700; cursor:pointer;
+ transition:background .2s; display:inline-flex; align-items:center; gap:.3rem;
+ font-family:'Be Vietnam Pro',sans-serif;
+ }
+ .btn-start:hover { background:#c0392b; }
+
+ .exam-card.locked { position:relative; overflow:hidden; }
+ .exam-card.locked .exam-body { filter:blur(4px); user-select:none; pointer-events:none; }
+ .exam-card.locked .exam-thumb { filter:blur(2px); }
+ .lock-overlay {
+ position:absolute; inset:0; z-index:10; cursor:pointer;
+ display:flex; flex-direction:column; align-items:center; justify-content:center;
+ background:rgba(255,255,255,.62); backdrop-filter:blur(2px); border-radius:14px;
+ transition:background .2s;
+ }
+ .lock-overlay:hover { background:rgba(255,255,255,.80); }
+ .lock-icon { width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#1a3fbf,#4a2da8);display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;box-shadow:0 4px 18px rgba(45,110,245,.35); }
+ .lock-icon i { color:#fff;font-size:1.2rem; }
+ .lock-label { font-size:.82rem;font-weight:800;color:#1a1a2e; }
+ .lock-sub { font-size:.71rem;color:#666;margin-top:.15rem; }
+
+ .dt-section-label { font-size:.68rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#2d6ef5; margin-bottom:1rem; display:flex; align-items:center; gap:.55rem; }
+ .dt-section-label::after { content:''; flex:1; height:1px; background:#e8ecf0; }
+
+ /* Trang làm bài */
+ #dt-page-exam { background:#f4f6f9; }
+
+ .dt-exam-topbar {
+ background:#fff; border-bottom:2px solid #e8ecf0;
+ padding:.7rem 1.5rem; display:flex; align-items:center;
+ gap:1rem; position:sticky; top:0; z-index:400;
+ box-shadow:0 2px 8px rgba(0,0,0,.06); flex-wrap:wrap;
+ }
+ .dt-exam-topbar-title { font-size:.92rem; font-weight:800; color:#1a1a2e; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+ .dt-timer-box {
+ display:flex; align-items:center; gap:.5rem;
+ background:#fff3f3; border:1.5px solid #fca5a5;
+ border-radius:10px; padding:.35rem .85rem;
+ }
+ .dt-timer-box i { color:#2d6ef5; font-size:1rem; }
+ .dt-timer-val { font-size:1rem; font-weight:800; color:#2d6ef5; font-family:monospace; min-width:58px; }
+ .dt-timer-box.warning { animation:dtTimerPulse 1s infinite; }
+ @keyframes dtTimerPulse { 0%,100%{opacity:1} 50%{opacity:.65} }
+
+ .dt-progress-info { font-size:.8rem; color:#888; white-space:nowrap; }
+ .dt-exam-progress-bar { height:4px; background:#e8ecf0; border-radius:2px; margin:0 1.5rem; }
+ .dt-exam-progress-bar .bar { height:100%; background:#2d6ef5; border-radius:2px; transition:width .3s; }
+
+ .dt-exam-layout { display:grid; grid-template-columns:1fr 240px; gap:1.2rem; padding:1.2rem; max-width:1100px; margin:0 auto; }
+
+ .dt-q-panel { background:#fff; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.06); overflow:hidden; }
+ .dt-q-header { background:linear-gradient(135deg,#2d6ef5 0%,#c0392b 100%); padding:1rem 1.4rem; color:#fff; display:flex; align-items:center; gap:1rem; }
+ .dt-q-num-badge { background:rgba(255,255,255,.25); border-radius:8px; padding:.3rem .75rem; font-size:.8rem; font-weight:700; white-space:nowrap; }
+ .dt-q-part-label { font-size:.75rem; opacity:.85; }
+ .dt-q-body { padding:1.4rem; }
+ .dt-q-text { font-size:.97rem; color:#1a1a2e; line-height:1.75; margin-bottom:1.2rem; font-weight:500; }
+ .dt-q-text .blank { display:inline-block; min-width:80px; border-bottom:2px solid #2d6ef5; text-align:center; margin:0 4px; color:#2d6ef5; font-weight:700; }
+
+ .dt-option-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.55rem; }
+ .dt-option-item { display:flex; align-items:center; gap:.85rem; padding:.75rem 1rem; border:1.5px solid #e8ecf0; border-radius:10px; cursor:pointer; transition:all .18s; }
+ .dt-option-item:hover { border-color:#2d6ef5; background:#fff5f5; }
+ .dt-option-item.selected { border-color:#2d6ef5; background:#fff0f0; }
+ .dt-option-item.correct { border-color:#16a34a; background:#f0fdf4; }
+ .dt-option-item.wrong { border-color:#dc2626; background:#fef2f2; }
+ .dt-option-label {
+ width:28px; height:28px; border-radius:50%; border:1.5px solid #ddd;
+ display:flex; align-items:center; justify-content:center;
+ font-size:.8rem; font-weight:700; flex-shrink:0;
+ transition:all .18s; color:#888;
+ }
+ .dt-option-item:hover .dt-option-label { border-color:#2d6ef5; color:#2d6ef5; }
+ .dt-option-item.selected .dt-option-label { background:#2d6ef5; border-color:#2d6ef5; color:#fff; }
+ .dt-option-item.correct .dt-option-label { background:#16a34a; border-color:#16a34a; color:#fff; }
+ .dt-option-item.wrong .dt-option-label { background:#dc2626; border-color:#dc2626; color:#fff; }
+ .dt-option-text { font-size:.9rem; color:#333; line-height:1.4; }
+ .dt-option-item.correct .dt-option-text { color:#166534; font-weight:600; }
+ .dt-option-item.wrong .dt-option-text { color:#991b1b; }
+
+ .dt-q-explain {
+ display:none; margin-top:1rem; padding:.9rem 1rem;
+ background:#f0fdf4; border-left:3px solid #16a34a; border-radius:8px;
+ font-size:.85rem; color:#166534; line-height:1.65;
+ }
+ .dt-q-explain.show { display:block; animation:dtFadeIn .3s ease; }
+ .dt-q-explain strong { display:block; margin-bottom:.3rem; }
+ @keyframes dtFadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+
+ .dt-q-nav { display:flex; justify-content:space-between; align-items:center; padding:.9rem 1.4rem; border-top:1px solid #f0f0f0; }
+ .dt-btn-nav {
+ background:#f5f6f8; border:1.5px solid #e8ecf0; border-radius:9px;
+ padding:.42rem 1.1rem; font-size:.83rem; font-weight:600; cursor:pointer;
+ transition:all .2s; display:flex; align-items:center; gap:.4rem;
+ font-family:'Be Vietnam Pro',sans-serif;
+ }
+ .dt-btn-nav:hover { background:#2d6ef5; color:#fff; border-color:#2d6ef5; }
+ .dt-btn-submit { background:#2d6ef5; color:#fff; border:none; border-radius:9px; padding:.42rem 1.4rem; font-size:.83rem; font-weight:700; cursor:pointer; transition:background .2s; font-family:'Be Vietnam Pro',sans-serif; }
+ .dt-btn-submit:hover { background:#c0392b; }
+
+ .dt-q-sidebar { display:flex; flex-direction:column; gap:1rem; }
+ .dt-sidebar-box { background:#fff; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.06); padding:1rem 1rem 1.1rem; }
+ .dt-sidebar-box h6 { font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:#aaa; margin:0 0 .75rem; }
+ .dt-q-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:.35rem; }
+ .dt-q-dot {
+ aspect-ratio:1; border-radius:7px; border:1.5px solid #e8ecf0;
+ display:flex; align-items:center; justify-content:center;
+ font-size:.72rem; font-weight:700; cursor:pointer; transition:all .2s; color:#888;
+ background:#f9f9f9;
+ }
+ .dt-q-dot:hover { border-color:#2d6ef5; color:#2d6ef5; }
+ .dt-q-dot.current { background:#2d6ef5; border-color:#2d6ef5; color:#fff; }
+ .dt-q-dot.answered{ background:#fff0f0; border-color:#2d6ef5; color:#2d6ef5; }
+ .dt-q-dot.correct { background:#d1fae5; border-color:#16a34a; color:#166534; }
+ .dt-q-dot.wrong { background:#fee2e2; border-color:#dc2626; color:#dc2626; }
+
+ .dt-legend { display:flex; flex-wrap:wrap; gap:.5rem .8rem; margin-top:.5rem; }
+ .dt-legend-item { display:flex; align-items:center; gap:.3rem; font-size:.7rem; color:#666; }
+ .dt-legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+ /* Trang kết quả */
+ .dt-result-hero {
+ background:linear-gradient(135deg,#2d6ef5 0%,#c0392b 100%);
+ color:#fff; border-radius:20px; padding:2.5rem 2rem; text-align:center;
+ margin-bottom:2rem; position:relative; overflow:hidden;
+ }
+ .dt-result-score-ring {
+ width:130px; height:130px; border-radius:50%;
+ background:rgba(255,255,255,.18); border:4px solid rgba(255,255,255,.5);
+ display:flex; flex-direction:column; align-items:center; justify-content:center;
+ margin:0 auto 1.2rem;
+ }
+ .dt-result-score-ring .score-num { font-size:2.4rem; font-weight:900; line-height:1; }
+ .dt-result-score-ring .score-max { font-size:.85rem; opacity:.8; }
+ .dt-result-grade { font-size:2rem; font-weight:900; margin-bottom:.3rem; }
+ .dt-result-msg { font-size:1rem; opacity:.9; margin-bottom:1.5rem; }
+ .dt-result-time-spent { background:rgba(255,255,255,.15); border-radius:10px; padding:.5rem 1.2rem; display:inline-block; font-size:.88rem; }
+
+ .dt-result-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+ .dt-rs-card { background:#fff; border-radius:14px; padding:1.2rem 1rem; text-align:center; box-shadow:0 2px 12px rgba(0,0,0,.06); }
+ .dt-rs-card .rs-num { font-size:1.8rem; font-weight:900; color:#1a1a2e; display:block; }
+ .dt-rs-card .rs-lbl { font-size:.75rem; color:#888; margin-top:.2rem; }
+ .dt-rs-card.correct .rs-num { color:#16a34a; }
+ .dt-rs-card.wrong .rs-num { color:#dc2626; }
+ .dt-rs-card.skip .rs-num { color:#f59e0b; }
+
+ .dt-review-row { padding:.8rem 1rem; border-bottom:1px solid #f0f0f0; display:flex; align-items:flex-start; gap:1rem; }
+ .dt-review-row:last-child { border-bottom:none; }
+ .dt-review-qnum { font-size:.8rem; font-weight:700; color:#888; min-width:32px; }
+ .dt-review-content { flex:1; }
+ .dt-review-q { font-size:.87rem; color:#333; margin-bottom:.3rem; line-height:1.5; }
+ .dt-review-answer { font-size:.8rem; }
+ .dt-review-answer .your-ans { color:#dc2626; font-weight:600; }
+ .dt-review-answer .your-ans.ok{ color:#16a34a; }
+ .dt-review-answer .correct-ans{ color:#16a34a; font-weight:600; }
+ .dt-review-status { flex-shrink:0; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.85rem; }
+ .dt-rs-ok { background:#d1fae5; }
+ .dt-rs-fail { background:#fee2e2; }
+ .dt-rs-skip { background:#fef3c7; }
+
+ .dt-btn-retake { background:#2d6ef5; color:#fff; border:none; border-radius:10px; padding:.6rem 1.6rem; font-size:.92rem; font-weight:700; cursor:pointer; transition:background .2s; font-family:'Be Vietnam Pro',sans-serif; }
+ .dt-btn-retake:hover { background:#c0392b; }
+ .dt-btn-back-list { background:#fff; color:#2d6ef5; border:2px solid #2d6ef5; border-radius:10px; padding:.6rem 1.6rem; font-size:.92rem; font-weight:700; cursor:pointer; transition:all .2s; font-family:'Be Vietnam Pro',sans-serif; }
+ .dt-btn-back-list:hover { background:#2d6ef5; color:#fff; }
+
+ @media (max-width:768px) {
+ .dt-exam-layout { grid-template-columns:1fr; }
+ .dt-result-stats { grid-template-columns:repeat(2,1fr); }
+ }
+
+ /* Paywall modal */
+ #dt-pw-modal { display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;background:rgba(10,15,30,.68);backdrop-filter:blur(8px); }
+ #dt-pw-modal.show { display:flex; }
+ .dt-pw-box { background:#fff;border-radius:22px;padding:2.2rem 2rem 1.9rem;max-width:440px;width:94%;box-shadow:0 32px 90px rgba(0,0,0,.3);animation:dtPwIn .22s cubic-bezier(.34,1.56,.64,1);text-align:center;position:relative; }
+ @keyframes dtPwIn{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:none}}
+ .dt-pw-close{position:absolute;top:.9rem;right:1rem;background:none;border:none;font-size:1.15rem;color:#bbb;cursor:pointer;line-height:1;padding:.1rem;}
+ .dt-pw-close:hover{color:#333;}
+ .dt-pw-badge{display:inline-flex;align-items:center;gap:.4rem;background:#f0f4ff;color:#2d6ef5;border-radius:20px;padding:.25rem .8rem;font-size:.75rem;font-weight:700;margin-bottom:.9rem;border:1px solid rgba(45,110,245,.2);}
+ .dt-pw-illu{width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,#1a3fbf,#4a2da8);display:flex;align-items:center;justify-content:center;margin:0 auto .9rem;box-shadow:0 8px 24px rgba(45,110,245,.3);}
+ .dt-pw-illu i{color:#fff;font-size:1.65rem;}
+ .dt-pw-title{font-size:1.2rem;font-weight:900;color:#1a1a2e;margin-bottom:.3rem;}
+ .dt-pw-desc{font-size:.87rem;color:#666;line-height:1.65;margin-bottom:1.2rem;}
+ .dt-pw-perks{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.4rem;text-align:left;background:#f8f9fd;border-radius:12px;padding:.9rem 1rem;}
+ .dt-pw-perk{display:flex;align-items:center;gap:.6rem;font-size:.84rem;color:#333;}
+ .dt-pw-perk i{color:#2d6ef5;font-size:.9rem;flex-shrink:0;}
+ .dt-pw-btn1{width:100%;background:linear-gradient(90deg,#1a3fbf,#4a2da8);color:#fff;border:none;border-radius:11px;padding:.78rem;font-size:.95rem;font-weight:800;cursor:pointer;transition:filter .2s;margin-bottom:.5rem;font-family:'Be Vietnam Pro',sans-serif;}
+ .dt-pw-btn1:hover{filter:brightness(1.1);}
+ .dt-pw-btn2{width:100%;background:#f5f6f8;color:#555;border:none;border-radius:11px;padding:.65rem;font-size:.86rem;font-weight:600;cursor:pointer;transition:background .2s;font-family:'Be Vietnam Pro',sans-serif;}
+ .dt-pw-btn2:hover{background:#e8ecf0;}
+ .dt-pw-note{font-size:.74rem;color:#bbb;margin-top:.8rem;}
+</style>
+<style>
+.tl-tab {
+ background:none;border:none;border-bottom:3px solid transparent;
+ color:#555;font-size:.88rem;font-weight:600;padding:.65rem 1.1rem;
+ cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;
+ display:inline-flex;align-items:center;gap:.4rem;
+ margin-bottom:-2px;transition:color .15s,border-color .15s;
+}
+.tl-tab:hover { color:#e84444; }
+.tl-tab.tl-active { color:#e84444;border-bottom-color:#e84444;font-weight:700; }
+.db-exam-card {
+ background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+ overflow:hidden;transition:box-shadow .15s,transform .15s,border-color .15s;height:100%;
+}
+.db-exam-card:hover { box-shadow:0 6px 22px rgba(26,110,245,.12);transform:translateY(-2px);border-color:var(--blue); }
+.db-exam-thumb { position:relative;height:120px;background:#1a1a2e;overflow:hidden; }
+.db-exam-thumb img { width:100%;height:100%;object-fit:cover;opacity:.7;transition:opacity .2s; }
+.db-exam-card:hover .db-exam-thumb img { opacity:.5; }
+.db-ex-year { position:absolute;top:7px;left:7px;background:rgba(0,0,0,.6);color:#fff;font-size:.62rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;letter-spacing:.4px; }
+.db-ex-lvl { position:absolute;top:7px;right:7px;font-size:.62rem;font-weight:700;padding:.15rem .45rem;border-radius:4px; }
+.lvl-easy { background:#d1fae5;color:#065f46; }
+.lvl-medium { background:#fef3c7;color:#92400e; }
+.lvl-hard { background:#fee2e2;color:#991b1b; }
+.db-exam-body { padding:.85rem; }
+.db-exam-body h6 { font-size:.84rem;font-weight:800;color:var(--text);margin:0 0 .3rem;line-height:1.35; }
+.db-exam-source { font-size:.7rem;color:var(--text-muted);margin-bottom:.55rem; }
+.db-exam-meta { display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.7rem; }
+.db-exam-meta span { font-size:.68rem;color:var(--text-muted);background:var(--bg);padding:.12rem .42rem;border-radius:20px;display:inline-flex;align-items:center;gap:.22rem; }
+.db-exam-meta span i { color:var(--blue);font-size:.62rem; }
+.db-exam-footer { display:flex;align-items:center;justify-content:space-between; }
+.db-btn-start { background:var(--blue);color:#fff;border:none;border-radius:7px;padding:.28rem .8rem;font-size:.75rem;font-weight:700;cursor:pointer;transition:background .15s;display:inline-flex;align-items:center;gap:.3rem; }
+.db-btn-start:hover { background:var(--blue-dark); }
+.db-pdf-card { background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:.75rem .9rem;display:flex;align-items:center;gap:.75rem;transition:border-color .15s,box-shadow .15s; }
+.db-pdf-card:hover { border-color:#e84444;box-shadow:0 3px 12px rgba(232,68,68,.08); }
+.db-pdf-icon { width:38px;height:38px;border-radius:8px;background:#fff0f0;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.db-pdf-icon i { color:#e84444;font-size:1.15rem; }
+.db-pdf-info { flex:1;min-width:0; }
+.db-pdf-info h6 { margin:0 0 .15rem;font-size:.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.db-pdf-info small { color:var(--text-muted);font-size:.7rem; }
+.db-btn-dl { background:#e84444;color:#fff;border:none;border-radius:6px;padding:.26rem .65rem;font-size:.72rem;font-weight:600;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:.25rem;transition:background .15s;cursor:pointer;flex-shrink:0; }
+.db-btn-dl:hover { background:#c0392b;color:#fff; }
+.db-btn-view { background:var(--blue-light);color:var(--blue);border:none;border-radius:6px;padding:.26rem .65rem;font-size:.72rem;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:.25rem;transition:background .15s;cursor:pointer;flex-shrink:0; }
+.db-btn-view:hover { background:var(--blue-mid); }
+
+/* Modal Video Preview */
+#tl-video-modal { display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;background:rgba(10,15,30,.78);backdrop-filter:blur(8px); }
+#tl-video-modal.open { display:flex; }
+.tl-vmodal-box { background:#111827;border-radius:18px;width:640px;max-width:calc(100vw - 32px);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55);animation:tlMIn .22s ease; }
+.tl-vmodal-header { background:linear-gradient(135deg,#1e3a5f,#1a1a2e);padding:14px 18px;display:flex;align-items:center;gap:12px; }
+.tl-vmodal-header span { flex:1;font-size:.9rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.tl-vmodal-close { width:30px;height:30px;background:rgba(255,255,255,.12);border:none;border-radius:8px;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s; }
+.tl-vmodal-close:hover { background:rgba(255,255,255,.25); }
+.tl-vmodal-screen { position:relative;height:340px;background:#000;display:flex;align-items:center;justify-content:center; }
+.tl-vmodal-placeholder { text-align:center; }
+.tl-vmodal-placeholder .play-ring { width:72px;height:72px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;cursor:pointer;transition:background .2s; }
+.tl-vmodal-placeholder .play-ring:hover { background:rgba(255,255,255,.18); }
+.tl-vmodal-placeholder .play-ring i { color:#fff;font-size:1.8rem;margin-left:4px; }
+.tl-vmodal-placeholder p { color:rgba(255,255,255,.55);font-size:.82rem;margin-bottom:6px; }
+.tl-vmodal-placeholder .url-hint { display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 10px;font-size:.75rem;color:rgba(255,255,255,.45);font-family:'JetBrains Mono',monospace; }
+.tl-vmodal-footer { padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid rgba(255,255,255,.07); }
+.tl-vmodal-teacher { font-size:.78rem;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:6px; }
+.tl-vmodal-teacher i { color:rgba(255,255,255,.3); }
+
+/* Modal PDF Preview */
+#tl-pdf-modal { display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;background:rgba(10,15,30,.72);backdrop-filter:blur(8px); }
+#tl-pdf-modal.open { display:flex; }
+.tl-pmodal-box { background:#fff;border-radius:18px;width:560px;max-width:calc(100vw - 32px);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:tlMIn .22s ease; }
+.tl-pmodal-header { background:linear-gradient(135deg,#1254cc,#1a6ef5);padding:14px 18px;display:flex;align-items:center;gap:12px; }
+.tl-pmodal-header span { flex:1;font-size:.9rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.tl-pmodal-close { width:30px;height:30px;background:rgba(255,255,255,.15);border:none;border-radius:8px;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s; }
+.tl-pmodal-close:hover { background:rgba(255,255,255,.28); }
+.tl-pmodal-screen { height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f4f6f9;gap:0; }
+.tl-pmodal-icon { width:72px;height:72px;background:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(232,68,68,.15);margin-bottom:16px; }
+.tl-pmodal-icon i { color:#e84444;font-size:2rem; }
+.tl-pmodal-screen h6 { font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:6px;text-align:center;padding:0 24px; }
+.tl-pmodal-screen .hint { display:inline-flex;align-items:center;gap:6px;background:rgba(232,68,68,.07);border:1px solid rgba(232,68,68,.15);border-radius:6px;padding:4px 12px;font-size:.74rem;color:#e84444;font-family:'JetBrains Mono',monospace;margin-top:4px; }
+.tl-pmodal-footer { padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--border); }
+.tl-pmodal-meta { font-size:.78rem;color:var(--text-muted);display:flex;align-items:center;gap:10px; }
+.tl-pmodal-meta span { display:flex;align-items:center;gap:4px; }
+@keyframes tlMIn { from{opacity:0;transform:scale(.96) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.db-video-card { background:var(--bg-card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:box-shadow .15s,border-color .15s;height:100%; }
+.db-video-card:hover { box-shadow:0 4px 14px rgba(0,0,0,.08);border-color:#ccc; }
+.db-video-thumb { position:relative;height:120px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden; }
+.db-video-thumb img { width:100%;height:100%;object-fit:cover;opacity:.7;transition:opacity .2s; }
+.db-video-card:hover .db-video-thumb img { opacity:.5; }
+.db-play-btn { position:absolute;width:40px;height:40px;background:rgba(255,255,255,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s; }
+.db-video-card:hover .db-play-btn { transform:scale(1.1); }
+.db-play-btn i { color:#e84444;font-size:1.05rem;margin-left:2px; }
+.db-video-dur { position:absolute;bottom:.4rem;right:.5rem;background:rgba(0,0,0,.7);color:#fff;font-size:.62rem;padding:.08rem .32rem;border-radius:4px; }
+.db-video-body { padding:.7rem .85rem; }
+.db-video-body h6 { font-size:.82rem;font-weight:700;margin:0 0 .2rem;line-height:1.35; }
+.db-video-teacher { font-size:.72rem;color:var(--text-muted);display:flex;align-items:center;gap:.3rem; }
+.db-video-teacher i { color:#e84444; }
+</style>
+<style>
+ .lh-hero{background:linear-gradient(135deg,#0f172a 0%,#1a1040 45%,#0c2340 100%);padding:28px 32px 0;position:relative;overflow:hidden;}
+ .lh-hero-orb{position:absolute;border-radius:50%;pointer-events:none;}
+ .lh-hero-orb-1{width:350px;height:350px;top:-120px;right:-60px;background:radial-gradient(circle,rgba(26,110,245,.18),transparent 65%);}
+ .lh-hero-orb-2{width:200px;height:200px;bottom:-60px;left:140px;background:radial-gradient(circle,rgba(124,58,237,.14),transparent 65%);animation:lhOrbF 7s ease-in-out infinite alternate;}
+ @keyframes lhOrbF{from{transform:translateY(0)}to{transform:translateY(-20px)}}
+ .lh-hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;position:relative;z-index:1;margin-bottom:24px;}
+ .lh-hero-title{font-size:26px;font-weight:900;color:#fff;letter-spacing:-.5px;}
+ .lh-hero-sub{font-size:13px;color:rgba(255,255,255,.5);margin-top:4px;}
+ .lh-btn-ghost{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:9px;padding:8px 16px;font-size:13px;font-weight:700;font-family:'Be Vietnam Pro',sans-serif;cursor:pointer;transition:background .15s;}
+ .lh-btn-ghost:hover{background:rgba(255,255,255,.18);}
+ .lh-week-strip{display:flex;align-items:stretch;position:relative;z-index:1;}
+ .lh-wstrip-nav{width:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.35);font-size:17px;transition:color .15s;padding-bottom:18px;}
+ .lh-wstrip-nav:hover{color:#fff;}
+ .lh-week-days{flex:1;display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+ .lh-wday{padding:9px 4px 16px;border-radius:12px 12px 0 0;text-align:center;cursor:pointer;transition:background .18s;position:relative;}
+ .lh-wday:hover{background:rgba(255,255,255,.07);}
+ .lh-wday.today-col{background:rgba(26,110,245,.22);}
+ .lh-wday.sel-col{background:rgba(26,110,245,.35);box-shadow:inset 0 -3px 0 var(--blue);}
+ .lh-wday-name{font-size:9.5px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;}
+ .lh-wday-num{font-size:18px;font-weight:900;color:rgba(255,255,255,.8);font-family:'JetBrains Mono',monospace;margin:4px 0 7px;line-height:1;}
+ .lh-today-bubble{display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--blue);align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;box-shadow:0 0 0 4px rgba(26,110,245,.3);}
+ .lh-wday-dots{display:flex;justify-content:center;gap:3px;min-height:7px;}
+ .lh-ev-dot{width:5px;height:5px;border-radius:50%;}
+ .lh-content{padding:22px 32px 48px;}
+ .lh-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px;}
+ .lh-stat-c{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px 15px;display:flex;align-items:center;gap:11px;transition:box-shadow .15s,transform .15s;}
+ .lh-stat-c:hover{box-shadow:0 4px 18px rgba(0,0,0,.07);transform:translateY(-1px);}
+ .lh-stat-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+ .lh-stat-val{font-size:21px;font-weight:900;font-family:'JetBrains Mono',monospace;line-height:1;}
+ .lh-stat-lbl{font-size:11.5px;color:var(--text-muted);font-weight:500;margin-top:1px;}
+ .lh-layout{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
+ .lh-tl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;}
+ .lh-tl-title{font-size:15px;font-weight:800;color:var(--text);flex-shrink:0;}
+ .lh-filter-tabs{display:flex;gap:4px;}
+ .lh-ftab{padding:5px 11px;border-radius:20px;font-size:12px;font-weight:700;border:1.5px solid var(--border);background:none;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;color:var(--text-muted);transition:all .15s;white-space:nowrap;}
+ .lh-ftab.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+ .lh-ftab:hover:not(.active){border-color:var(--blue);color:var(--blue);}
+ .lh-tl-day-block{margin-bottom:22px;}
+ .lh-tl-day-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.9px;color:var(--text-light);margin-bottom:10px;}
+ .lh-tl-day-label.today-lbl{color:var(--blue);}
+ .lh-today-badge{background:var(--blue);color:#fff;border-radius:20px;padding:1px 8px;font-size:9.5px;font-weight:800;}
+ .lh-ev-card{display:flex;border-radius:13px;overflow:hidden;border:1px solid var(--border);margin-bottom:9px;cursor:pointer;transition:box-shadow .18s,transform .18s;background:var(--bg-card);}
+ .lh-ev-card:hover{box-shadow:0 6px 28px rgba(0,0,0,.1);transform:translateY(-2px);}
+ .lh-ev-card.past{opacity:.38;filter:grayscale(40%);}
+ .lh-ev-card:not(.past){box-shadow:0 2px 10px rgba(0,0,0,.06);}
+ .lh-ev-stripe{width:5px;flex-shrink:0;}
+ .lh-ev-main{flex:1;padding:13px 15px;display:flex;align-items:flex-start;gap:13px;}
+ .lh-ev-emoji{font-size:19px;flex-shrink:0;margin-top:2px;}
+ .lh-ev-body{flex:1;min-width:0;}
+ .lh-ev-type-tag{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px;}
+ .lh-ev-name{font-size:13.5px;font-weight:800;color:var(--text);margin-bottom:5px;}
+ .lh-ev-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:11.5px;color:var(--text-muted);}
+ .lh-ev-meta span{display:inline-flex;align-items:center;gap:4px;}
+ .lh-ev-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;padding:13px 13px 13px 0;gap:7px;flex-shrink:0;}
+ .lh-ev-status{font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;}
+ .lh-ev-live-now{background:var(--red);color:#fff;animation:lhLivePulse .9s ease-in-out infinite;}
+ @keyframes lhLivePulse{0%,100%{opacity:1}50%{opacity:.6}}
+ .lh-ev-action{font-size:11.5px;font-weight:700;border:none;border-radius:7px;padding:5px 12px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:background .15s;white-space:nowrap;}
+ .lh-empty-day{border:1.5px dashed var(--border);border-radius:12px;padding:18px;text-align:center;color:var(--text-muted);font-size:13px;}
+ .lh-mini-cal-hdr{display:flex;align-items:center;gap:6px;margin-bottom:12px;}
+ .lh-mini-cal-label{font-size:13.5px;font-weight:800;color:var(--text);flex:1;}
+ .lh-mini-nav-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-muted);transition:all .15s;}
+ .lh-mini-nav-btn:hover{border-color:var(--blue);color:var(--blue);}
+ .lh-mini-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;}
+ .lh-mhdr{font-size:9px;font-weight:700;color:var(--text-light);padding:3px 0;text-transform:uppercase;}
+ .lh-mcell{font-size:11px;font-weight:600;color:var(--text-muted);padding:5px 2px;border-radius:6px;cursor:pointer;line-height:1;position:relative;transition:background .12s;}
+ .lh-mcell:hover{background:var(--blue-light);color:var(--blue);}
+ .lh-mcell.mc-today{background:var(--blue);color:#fff;font-weight:900;}
+ .lh-mcell.mc-hasev::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.7;}
+ .lh-mcell.mc-other{opacity:.28;}
+ .lh-mcell.mc-sel{box-shadow:0 0 0 2px var(--blue);}
+ .lh-cd-wrap{background:linear-gradient(135deg,#0f172a,#1a1040,#0c2340);border-radius:12px;padding:16px 17px;margin-bottom:0;position:relative;overflow:hidden;}
+ .lh-cd-wrap::before{content:'';position:absolute;top:-30px;right:-30px;width:130px;height:130px;background:radial-gradient(circle,rgba(124,58,237,.3),transparent 70%);}
+ .lh-cd-ev-name{font-size:12.5px;font-weight:800;color:#fff;position:relative;margin-bottom:2px;}
+ .lh-cd-ev-sub{font-size:10.5px;color:rgba(255,255,255,.4);font-weight:600;position:relative;margin-bottom:10px;}
+ .lh-cd-digits{display:flex;gap:6px;position:relative;}
+ .lh-cd-block{flex:1;background:rgba(255,255,255,.1);border-radius:8px;padding:7px 6px;text-align:center;}
+ .lh-cd-num{font-size:17px;font-weight:900;color:#fff;font-family:'JetBrains Mono',monospace;line-height:1;}
+ .lh-cd-unit{font-size:8.5px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:2px;}
+ .lh-up-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+ .lh-up-item:last-child{border-bottom:none;}
+ .lh-up-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+ .lh-up-name{font-size:12.5px;font-weight:600;color:var(--text);flex:1;}
+ .lh-up-badge{font-size:10px;font-weight:800;border-radius:20px;padding:2px 7px;white-space:nowrap;}
+ .lh-modal-bg{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;}
+ .lh-modal-bg.open{display:flex;}
+ .lh-modal{background:#fff;border-radius:20px;width:450px;max-width:calc(100vw - 32px);box-shadow:0 30px 80px rgba(0,0,0,.25);overflow:hidden;animation:lhMIn .2s ease;}
+ @keyframes lhMIn{from{opacity:0;transform:translateY(-12px) scale(.97)}to{opacity:1;transform:none}}
+ .lh-m-head{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:11px;}
+ .lh-m-body{padding:16px 20px 20px;}
+ .lh-m-close{margin-left:auto;width:28px;height:28px;border-radius:7px;border:none;background:var(--bg);cursor:pointer;font-size:14px;color:var(--text-muted);display:flex;align-items:center;justify-content:center;}
+ .lh-m-close:hover{background:var(--border);}
+ .lh-m-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:13px;}
+ .lh-m-row i{color:var(--text-muted);font-size:14px;margin-top:2px;flex-shrink:0;width:17px;}
+ .lh-btn-prim{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;font-family:'Be Vietnam Pro',sans-serif;cursor:pointer;}
+ .lh-btn-prim:hover{background:var(--blue-dark);}
+ @media(max-width:1100px){.lh-layout{grid-template-columns:1fr;}.lh-stat-row{grid-template-columns:repeat(2,1fr);}}
+</style>
+ </style>
+</head>
+<body>
+
+<!-- GUARD: đảm bảo đã đăng nhập -->
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+ <div class="sidebar-header">
+ <a href="index.html" class="logo-text">English Center</a>
+ <div><span class="role-chip"><i class="bi bi-mortarboard-fill"></i> Học sinh</span></div>
+ </div>
+
+ <div class="sidebar-xp">
+ <div class="xp-row">
+ <span class="xp-label">Cấp 1 · <span style="color:var(--text-muted);font-weight:600">Người mới bắt đầu</span></span>
+ <span class="xp-val">0 / 100 XP</span>
+ </div>
+ <div class="xp-bar"><div class="xp-fill" style="width:0%"></div></div>
+ </div>
+
+ <div class="sidebar-streak">
+ <span class="streak-fire" id="streakFire"></span>
+ <div>
+ <div style="display:flex;align-items:baseline;gap:4px">
+ <span class="streak-count">0</span>
+ <span style="font-size:13px;font-weight:700;color:var(--orange)">ngày</span>
+ </div>
+ <div class="streak-label">Chuỗi học liên tiếp</div>
+ </div>
+ <div style="margin-left:auto;text-align:right">
+ <div style="font-size:11px;color:var(--text-light)">Chưa bắt đầu</div>
+ </div>
+ </div>
+
+ <nav class="sidebar-nav">
+ <div class="nav-group-label">Tổng quan</div>
+ <a class="nav-link active" id="nav-dashboard" href="#" onclick="switchView('dashboard');return false;"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+
+ <div class="nav-group-label">Học tập</div>
+ <a class="nav-link" id="nav-lichhoc" href="#" onclick="switchView('lichhoc');return false;"><i class="bi bi-calendar2"></i> Lịch học</a>
+ <a class="nav-link" id="nav-dethithu" href="#" onclick="switchView('dethithu');return false;"><i class="bi bi-file-earmark-text"></i> Đề thi thử</a>
+ <a class="nav-link" id="nav-spk" href="#" onclick="switchView('spk');return false;"><i class="bi bi-mic"></i> Luyện Speaking AI</a>
+ <a class="nav-link" id="nav-tailieu" href="#" onclick="switchView('tailieu');return false;"><i class="bi bi-book"></i> Tài liệu ôn thi</a>
+ <a class="nav-link" id="nav-hoidap" href="#" onclick="switchView('hoidap');return false;"><i class="bi bi-chat-dots"></i> Hỏi đáp GV</a>
+
+ <div class="nav-group-label">Cá nhân</div>
+ <a class="nav-link" id="nav-ketqua" href="#" onclick="switchView('ketqua');return false;"><i class="bi bi-bar-chart-line"></i> Kết quả & Tiến độ</a>
+ <a class="nav-link" id="nav-huyhieu" href="#" onclick="switchView('huyhieu');return false;"><i class="bi bi-trophy"></i> Huy hiệu & Xếp hạng</a>
+ <a class="nav-link" id="nav-settings" href="#" onclick="switchView('settings');return false;"><i class="bi bi-gear"></i> Cài đặt</a>
+ </nav>
+
+ <div class="sidebar-bottom">
+ <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+ <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;flex-shrink:0" id="sAvatar">HS</div>
+ <div style="min-width:0">
+ <div style="font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="sName">Học Sinh</div>
+ <div style="font-size:11px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="sEmail">email@gmail.com</div>
+ </div>
+ </div>
+ <button class="btn-logout" onclick="logout()"><i class="bi bi-box-arrow-left"></i> Đăng xuất</button>
+ </div>
+</aside>
+
+<!-- MAIN -->
+<!-- MAIN -->
+<main class="main">
+<div id="view-dashboard">
+
+ <!-- Thông báo giới hạn khóa học (popup nổi) -->
+ <div id="courseSlotNotice" style="display:none;position:fixed;inset:0;z-index:9999;align-items:flex-start;justify-content:center;padding-top:60px;background:rgba(15,23,42,0.35);backdrop-filter:blur(3px)">
+ <div style="width:460px;max-width:calc(100vw - 32px);background:#fff;border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,0.22);overflow:hidden;animation:slideDown .25s ease">
+ <!-- Header strip -->
+ <div style="background:linear-gradient(135deg,#ea580c,#f97316);padding:20px 22px 18px;display:flex;align-items:center;gap:14px">
+ <div style="width:44px;height:44px;background:rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0"></div>
+ <div>
+ <div style="font-size:15px;font-weight:800;color:#fff;letter-spacing:-0.2px">Đã đạt giới hạn khóa học</div>
+ <div style="font-size:11.5px;color:rgba(255,255,255,0.8);margin-top:2px;font-weight:500">Chính sách đảm bảo chất lượng</div>
+ </div>
+ <button onclick="document.getElementById('courseSlotNotice').classList.remove('show')" style="margin-left:auto;width:32px;height:32px;background:rgba(255,255,255,0.2);border:none;border-radius:8px;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background 0.15s;flex-shrink:0" onmouseover="this.style.background='rgba(255,255,255,0.35)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">x</button>
+ </div>
+ <!-- Body -->
+ <div style="padding:22px 24px 24px">
+ <p style="font-size:13.5px;color:#0f172a;line-height:1.75;margin:0 0 18px">Để đảm bảo mỗi học viên được học tập hiệu quả nhất, chúng tôi giới hạn mỗi tài khoản tối đa <strong style="color:#ea580c">2 khóa học</strong> cùng lúc.</p>
+ <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:20px">
+ <span style="font-size:22px"></span>
+ <div style="font-size:12.5px;color:#475569;line-height:1.6">Hoàn thành ít nhất <strong style="color:#0f172a">1 khóa đang học</strong> để mở thêm slot đăng ký mới.</div>
+ </div>
+ <div style="display:flex;gap:10px;justify-content:flex-end">
+ <button onclick="document.getElementById('courseSlotNotice').classList.remove('show')" style="padding:9px 20px;border-radius:8px;border:1.5px solid #e2e8f0;background:#fff;font-size:13px;font-weight:600;color:#64748b;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all 0.15s" onmouseover="this.style.borderColor='#94a3b8'" onmouseout="this.style.borderColor='#e2e8f0'">Đã hiểu</button>
+ <button onclick="document.getElementById('courseSlotNotice').classList.remove('show'); setTimeout(()=>{ const el=document.getElementById('myCourseCard'); if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>{ el.classList.add('popping'); el.addEventListener('animationend',()=>el.classList.remove('popping'),{once:true}); },300); } },200);" style="padding:9px 20px;border-radius:8px;background:linear-gradient(135deg,#1a6ef5,#3b82f6);color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:opacity 0.15s;font-family:'Be Vietnam Pro',sans-serif" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'"><i class="bi bi-play-fill"></i>Tiếp tục học ngay</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ <style>
+ @keyframes slideDown { from { opacity:0; transform:translateY(-18px) } to { opacity:1; transform:translateY(0) } }
+ @keyframes dotPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.5);opacity:.7} }
+ @keyframes notifFade { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+ @keyframes cardPop {
+ 0% { transform: translateY(0) scale(1); box-shadow: var(--shadow); }
+ 30% { transform: translateY(-10px) scale(1.025); box-shadow: 0 20px 48px rgba(26,110,245,0.22); }
+ 60% { transform: translateY(-5px) scale(1.012); box-shadow: 0 12px 32px rgba(26,110,245,0.15); }
+ 100% { transform: translateY(0) scale(1); box-shadow: var(--shadow); }
+ }
+ #myCourseCard.popping { animation: cardPop 0.65s cubic-bezier(.36,.07,.19,.97) forwards; }
+ #courseSlotNotice.show { display:flex !important; }
+ </style>
+
+
+ <!-- Topbar -->
+ <div class="topbar">
+ <div>
+ <h1 id="wTitle">Chào buổi sáng! </h1>
+ <p id="wSub">Hôm nay bạn sẽ học gì</p>
+ </div>
+ <div class="topbar-right">
+ <div id="notifWrap" style="position:relative">
+ <div class="btn-notif" onclick="toggleNotif(event)" style="cursor:pointer">
+ <i class="bi bi-bell" style="font-size:17px;color:var(--text-muted)"></i>
+ <div id="notifDot" class="dot" style="animation:dotPulse 1.5s ease infinite"></div>
+ </div>
+
+ <!-- DROPDOWN -->
+ <div id="notifDropdown" style="display:none;position:absolute;top:46px;right:0;width:380px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.14);z-index:9999;overflow:hidden">
+ <!-- Header -->
+ <div style="padding:14px 18px 10px;border-bottom:1px solid var(--border)">
+ <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+ <div style="font-size:14px;font-weight:800;color:var(--text)"> Thông báo</div>
+ <div style="display:flex;align-items:center;gap:8px">
+ <span id="notifUnreadLabel" style="font-size:11px;color:var(--text-muted);font-weight:600">3 chưa đọc</span>
+ <button onclick="markAllRead()" style="font-size:11.5px;font-weight:700;color:var(--blue);background:none;border:none;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;padding:0">Đọc tất cả</button>
+ </div>
+ </div>
+ <!-- Filter tabs -->
+ <div style="display:flex;gap:0">
+ <button class="ntab" onclick="filterNotif('all',this)" style="font-size:12px;font-weight:700;color:var(--blue);border:none;border-bottom:2px solid var(--blue);background:none;padding:4px 12px 6px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif">Tất cả</button>
+ <button class="ntab" onclick="filterNotif('unread',this)" style="font-size:12px;font-weight:700;color:var(--text-muted);border:none;border-bottom:2px solid transparent;background:none;padding:4px 12px 6px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif">Chưa đọc</button>
+ <button class="ntab" onclick="filterNotif('system',this)" style="font-size:12px;font-weight:700;color:var(--text-muted);border:none;border-bottom:2px solid transparent;background:none;padding:4px 12px 6px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif">Hệ thống</button>
+ </div>
+ </div>
+ <!-- List -->
+ <div id="notifList" style="max-height:380px;overflow-y:auto"></div>
+ <!-- Footer -->
+ <div style="padding:10px 18px;border-top:1px solid var(--border);text-align:center">
+ <button onclick="switchView('hoidap');document.getElementById('notifDropdown').style.display='none';notifOpen=false;" style="font-size:12.5px;font-weight:700;color:var(--blue);background:none;border:none;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif">Xem tất cả thông báo →</button>
+ </div>
+ </div>
+ </div>
+ <a href="javascript:void(0)" onclick="handleRegisterClick()" class="btn-primary"><i class="bi bi-plus-circle"></i> Đăng ký thêm khóa</a>
+ </div>
+ </div>
+
+
+<!-- Welcome Banner -->
+ <div class="welcome-banner fi">
+ <div style="position:relative">
+ <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px"> Chào mừng đến với English Center</div>
+ <h3>Hành trình chinh phục Tiếng Anh bắt đầu từ đây!</h3>
+ <p>Chúng tôi sẽ đồng hành cùng bạn từ nền tảng đến mục tiêu <strong style="color:#93c5fd">8+ điểm THPTQG</strong> với lộ trình cá nhân hóa, AI phân tích điểm yếu và đội ngũ giáo viên tận tâm.</p>
+ <div style="display:flex;align-items:center;gap:16px;margin-top:16px;position:relative">
+ <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.7)">
+ <span style="font-size:16px"></span> Giáo viên chuyên nghiệp
+ </div>
+ <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.7)">
+ <span style="font-size:16px"></span> AI cá nhân hóa
+ </div>
+ <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.7)">
+ <span style="font-size:16px"></span> Bảng xếp hạng
+ </div>
+ </div>
+ </div>
+ <a href="baihoc.html" class="btn-banner" style="flex-shrink:0">
+ <i class="bi bi-play-circle-fill"></i> Vào học ngay
+ </a>
+ </div>
+
+
+
+ <!-- Stats -->
+ <div class="stat-grid">
+ <div class="stat-card fi">
+ <div class="stat-icon" style="background:var(--blue-light);color:var(--blue)"><i class="bi bi-play-circle-fill"></i></div>
+ <div>
+ <div class="stat-value">2</div>
+ <div class="stat-label">Khóa đang học</div>
+ <div class="stat-delta delta-up"><i class="bi bi-arrow-up-short"></i>Cập nhật hôm nay</div>
+ </div>
+ </div>
+ <div class="stat-card fi">
+ <div class="stat-icon" style="background:var(--green-light);color:var(--green)"><i class="bi bi-check2-circle"></i></div>
+ <div>
+ <div class="stat-value">14</div>
+ <div class="stat-label">Bài đã hoàn thành</div>
+ <div class="stat-delta delta-up"><i class="bi bi-arrow-up-short"></i>+3 tuần này</div>
+ </div>
+ </div>
+ <div class="stat-card fi">
+ <div class="stat-icon" style="background:var(--orange-light);color:var(--orange)"><i class="bi bi-trophy-fill"></i></div>
+ <div>
+ <div class="stat-value">7.5</div>
+ <div class="stat-label">Điểm TB đề thi thử</div>
+ <div class="stat-delta delta-up"><i class="bi bi-arrow-up-short"></i>+0.5 so với tuần trước</div>
+ </div>
+ </div>
+ <div class="stat-card fi">
+ <div class="stat-icon" style="background:var(--purple-light);color:var(--purple)"><i class="bi bi-lightning-fill"></i></div>
+ <div>
+ <div class="stat-value">340</div>
+ <div class="stat-label">Tổng XP tích lũy</div>
+ <div class="stat-delta delta-up"><i class="bi bi-arrow-up-short"></i>+55 hôm nay</div>
+ </div>
+ </div>
+ </div>
+
+
+ <!-- AI Banner -->
+ <div class="ai-banner">
+ <div>
+ <h3> AI sẵn sàng đồng hành — Hãy bắt đầu học để AI phân tích điểm yếu của bạn!</h3>
+ <p>Sau khi bạn hoàn thành ít nhất <strong style="color:#93c5fd">3 bài tập hoặc 1 đề thi thử</strong>, AI sẽ tự động xác định điểm yếu và xây dựng lộ trình ôn tập cá nhân hóa cho bạn.</p>
+ </div>
+ <button class="btn-ai" onclick="switchView('dethithu')"><i class="bi bi-pencil-square me-1"></i>Làm đề thi thử ngay</button>
+ </div>
+
+
+ <!-- Bài học tiếp theo được đề xuất -->
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+
+ <!-- Tiếp tục học -->
+ <div style="background:var(--bg-card);border:1.5px solid var(--blue-mid);border-radius:var(--radius);padding:18px;display:flex;gap:14px;align-items:flex-start;transition:box-shadow .15s;cursor:pointer" onmouseover="this.style.boxShadow='0 4px 18px rgba(26,110,245,.12)'" onmouseout="this.style.boxShadow='none'" onclick="window.location='baihoc.html'">
+ <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#1a6ef5,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">▶</div>
+ <div style="min-width:0">
+ <div style="font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px">Tiếp tục học</div>
+ <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Bắt đầu bài học đầu tiên</div>
+ <div style="font-size:12px;color:var(--text-muted)">Chọn khóa học của bạn · Sẵn sàng</div>
+ <div style="margin-top:8px;height:4px;background:var(--border);border-radius:10px;overflow:hidden"><div style="height:100%;width:0%;background:var(--blue);border-radius:10px"></div></div>
+ </div>
+ </div>
+
+ <!-- AI đề xuất ôn tập -->
+ <div style="background:var(--bg-card);border:1.5px solid #fde68a;border-radius:var(--radius);padding:18px;display:flex;gap:14px;align-items:flex-start;transition:box-shadow .15s;cursor:pointer" onmouseover="this.style.boxShadow='0 4px 18px rgba(202,138,4,.1)'" onmouseout="this.style.boxShadow='none'" onclick="switchView('tailieu')">
+ <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#f59e0b,#fcd34d);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0"></div>
+ <div style="min-width:0">
+ <div style="font-size:10px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px">AI đề xuất ôn tập</div>
+ <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">AI đang chờ dữ liệu của bạn...</div>
+ <div style="font-size:12px;color:var(--text-muted)">Làm đề thi để AI phân tích</div>
+ <div style="margin-top:8px;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--text-muted);background:var(--bg);padding:2px 8px;border-radius:20px">⏳ Chờ dữ liệu</div>
+ </div>
+ </div>
+
+ <!-- De thi thu -->
+ <div style="background:var(--bg-card);border:1.5px solid #e9d5ff;border-radius:var(--radius);padding:18px;display:flex;gap:14px;align-items:flex-start;transition:box-shadow .15s;cursor:pointer" onmouseover="this.style.boxShadow='0 4px 18px rgba(124,58,237,.1)'" onmouseout="this.style.boxShadow='none'" onclick="switchView('dethithu')">
+ <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#7c3aed,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0"></div>
+ <div style="min-width:0">
+ <div style="font-size:10px;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px">Đề thi thử</div>
+ <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Chưa có đề thi được giao hôm nay</div>
+ <div style="font-size:12px;color:var(--text-muted)">Khi giáo viên giao đề, hệ thống sẽ hiển thị tại đây.</div>
+ <div style="margin-top:8px;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--text-muted);background:var(--bg);padding:2px 8px;border-radius:20px">⏳ Chờ dữ liệu</div>
+ </div>
+ </div>
+
+ </div>
+
+
+ <!-- Row 1: Courses + Right panel -->
+ <div class="two-col">
+
+ <!-- LEFT: Courses + Scores -->
+ <div style="display:flex;flex-direction:column;gap:20px">
+
+ <div class="card" id="myCourseCard">
+ <div class="card-title" style="color:var(--blue)">
+ <i class="bi bi-play-circle-fill"></i> Khóa học đang theo học
+ <span style="margin-left:auto;font-size:11.5px;color:var(--text-muted);font-weight:500" id="courseSlotLabel">0 / 2 khóa</span>
+ </div>
+ <div id="courseListWrap">
+ <div style="text-align:center;padding:32px 16px">
+ <div style="font-size:32px;margin-bottom:10px"></div>
+ <div style="font-size:13.5px;font-weight:800;color:var(--text);margin-bottom:6px">Chưa có khóa học nào</div>
+ <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px">Đăng ký khóa học để bắt đầu hành trình luyện thi THPTQG.</div>
+ <a href="#" onclick="handleRegisterClick();return false;" style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;text-decoration:none"><i class="bi bi-plus-circle-fill"></i> Đăng ký ngay</a>
+ </div>
+ </div>
+ </div>
+
+ <!-- Kết quả đề thi -->
+ <div class="card">
+ <div class="card-title" style="color:var(--orange)"><i class="bi bi-bar-chart-fill"></i> Kết quả đề thi gần đây</div>
+ <div id="recentExamWrap">
+ <div style="text-align:center;padding:28px 16px">
+ <div style="font-size:28px;margin-bottom:8px"></div>
+ <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">Chưa có kết quả nào</div>
+ <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Làm đề thi thử để xem điểm số và phân tích lỗi sai.</div>
+ <a href="#" onclick="switchView('dethithu');return false;" style="display:inline-flex;align-items:center;gap:6px;background:var(--orange);color:#fff;border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:700;text-decoration:none"><i class="bi bi-pencil-square"></i> Làm đề ngay</a>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- RIGHT: Upcoming + Weakness -->
+ <div style="display:flex;flex-direction:column;gap:20px">
+
+ <div class="card">
+ <div class="card-title" style="color:var(--purple)"><i class="bi bi-calendar-event-fill"></i> Sắp diễn ra</div>
+ <div id="upcomingSessionWrap">
+ <div style="text-align:center;padding:28px 16px;color:var(--text-muted)">
+ <div style="font-size:30px;margin-bottom:9px"></div>
+ <div style="font-size:13.5px;font-weight:800;color:var(--text);margin-bottom:5px">Chưa có lịch sắp diễn ra</div>
+ <div style="font-size:12.5px;line-height:1.6">Khi giáo viên tạo lịch học hoặc lịch thi, nội dung sẽ hiển thị tại đây.</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="card">
+ <div class="card-title" style="color:var(--orange)"><i class="bi bi-lightbulb-fill"></i> Điểm yếu AI phát hiện</div>
+ <div style="text-align:center;padding:24px 12px">
+ <div style="font-size:28px;margin-bottom:8px"></div>
+ <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">AI chưa có đủ dữ liệu</div>
+ <div style="font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:12px">Hoàn thành <strong>3 bài tập hoặc 1 đề thi thử</strong> để AI xác định điểm yếu và đề xuất lộ trình ôn tập cá nhân hóa.</div>
+ <a href="#" onclick="switchView('dethithu');return false;" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--blue);text-decoration:none"><i class="bi bi-arrow-right-circle-fill"></i> Bắt đầu làm đề</a>
+ </div>
+ </div>
+
+ </div>
+ </div>
+
+
+ <!-- Row 2: Biểu đồ tiến độ + Lịch học -->
+ <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;margin-bottom:20px">
+
+ <!-- Biểu đồ XP theo tuần -->
+ <div class="card">
+ <div class="card-title" style="color:var(--blue);margin-bottom:14px">
+ <i class="bi bi-graph-up-arrow"></i> Tiến độ học tập theo tuần
+ <div style="margin-left:auto;display:flex;gap:6px">
+ <button onclick="switchChart(this,'xp')" class="tab-btn active" id="chartTabXp" style="padding:4px 10px;font-size:11px">XP</button>
+ <button onclick="switchChart(this,'score')" class="tab-btn" id="chartTabScore" style="padding:4px 10px;font-size:11px">Điểm thi</button>
+ <button onclick="switchChart(this,'time')" class="tab-btn" id="chartTabTime" style="padding:4px 10px;font-size:11px">Thời gian</button>
+ </div>
+ </div>
+ <!-- Summary row -->
+ <div style="display:flex;gap:10px;margin-bottom:16px">
+ <div style="flex:1;padding:10px 12px;background:var(--blue-light);border-radius:10px;display:flex;align-items:center;gap:8px">
+ <span style="font-size:18px;font-weight:900;color:var(--blue);font-family:'JetBrains Mono',monospace" id="statXp">—</span>
+ <span style="font-size:11px;color:var(--text-muted);font-weight:600">Tổng XP</span>
+ </div>
+ <div style="flex:1;padding:10px 12px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;gap:8px">
+ <span style="font-size:18px;font-weight:900;color:var(--green);font-family:'JetBrains Mono',monospace" id="statScore">—</span>
+ <span style="font-size:11px;color:var(--text-muted);font-weight:600">Điểm TB</span>
+ </div>
+ <div style="flex:1;padding:10px 12px;background:var(--orange-light);border-radius:10px;display:flex;align-items:center;gap:8px">
+ <span style="font-size:18px;font-weight:900;color:var(--orange);font-family:'JetBrains Mono',monospace" id="statTime">—</span>
+ <span style="font-size:11px;color:var(--text-muted);font-weight:600">Học tuần này</span>
+ </div>
+ <div style="flex:1;padding:10px 12px;background:var(--purple-light);border-radius:10px;display:flex;align-items:center;gap:8px">
+ <span style="font-size:18px;font-weight:900;color:var(--purple);font-family:'JetBrains Mono',monospace" id="statLessons">0</span>
+ <span style="font-size:11px;color:var(--text-muted);font-weight:600">Bài hoàn thành</span>
+ </div>
+ </div>
+ <div style="position:relative;height:200px">
+ <canvas id="progressChart" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+ </div>
+ <div style="margin-top:10px;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);font-weight:600" id="chartTipRow">
+ <i class="bi bi-info-circle"></i> Dữ liệu sẽ hiển thị sau khi bạn bắt đầu học.
+ </div>
+ </div>
+
+ <!-- Lịch học chi tiết -->
+ <div class="card">
+ <div class="card-title" style="color:var(--purple)">
+ <i class="bi bi-calendar3"></i> Lịch học tuần này
+ <span style="margin-left:auto;font-size:11.5px;color:var(--text-muted);font-weight:500" id="calWeekLabel"></span>
+ </div>
+ <!-- Mini calendar — render by JS -->
+ <div id="calGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px;text-align:center"></div>
+ <!-- Schedule — render by JS -->
+ <div id="calSchedule" style="display:flex;flex-direction:column;gap:8px"></div>
+ <a href="#" style="display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:12.5px;font-weight:700;color:var(--blue);text-decoration:none">Xem lịch đầy đủ <i class="bi bi-arrow-right"></i></a>
+ </div>
+
+ </div>
+
+
+ <!-- Row 3: Badges + Leaderboard + Activity -->
+ <div class="three-col">
+
+ <!-- Badges -->
+ <div class="card">
+ <div class="card-title" style="color:#ca8a04">
+ <i class="bi bi-award-fill"></i> Huy hiệu của tôi
+ </div>
+ <div class="badges-grid">
+ <div class="badge-item locked"><div class="badge-icon">⭐</div><div class="badge-name">Ngôi sao đầu tiên</div><div class="badge-desc">Bài học đầu tiên</div></div>
+ <div class="badge-item locked"><div class="badge-icon"></div><div class="badge-name">Không bỏ cuộc</div><div class="badge-desc">Streak 7 ngày</div></div>
+ <div class="badge-item locked"><div class="badge-icon"></div><div class="badge-name">Siêng năng</div><div class="badge-desc">14 ngày ôn tập</div></div>
+ <div class="badge-item locked"><div class="badge-icon"></div><div class="badge-name">Cầu toàn</div><div class="badge-desc">3 lần 100%</div></div>
+ <div class="badge-item locked"><div class="badge-icon"></div><div class="badge-name">Phát âm chuẩn</div><div class="badge-desc">Speaking 90%+</div></div>
+ <div class="badge-item locked"><div class="badge-icon"></div><div class="badge-name">Tốt nghiệp</div><div class="badge-desc">Hoàn thành khóa</div></div>
+ <div class="badge-item locked"><div class="badge-icon"></div><div class="badge-name">Tốc ký</div><div class="badge-desc">Hoàn thành đề &lt;35 phút</div></div>
+ <div class="badge-item locked"><div class="badge-icon"></div><div class="badge-name">Top 3</div><div class="badge-desc">Lọt BXH tuần</div></div>
+ </div>
+ </div>
+
+ <!-- Leaderboard -->
+ <div class="card">
+ <div class="card-title" style="color:var(--blue)"><i class="bi bi-trophy-fill"></i> Bảng xếp hạng</div>
+ <div class="tab-row">
+ <button class="tab-btn active" onclick="switchLB(this,'week')">Tuần này</button>
+ <button class="tab-btn" onclick="switchLB(this,'month')">Tháng này</button>
+ </div>
+ <div id="lbList"></div>
+ </div>
+
+ <!-- Activity + XP today -->
+ <div class="card">
+ <div class="card-title" style="color:var(--green)"><i class="bi bi-lightning-fill"></i> Hoạt động hôm nay</div>
+ <div id="actLog" style="display:flex;flex-direction:column;gap:10px"></div>
+ <div style="margin-top:18px;padding:14px;background:var(--blue-light);border-radius:10px;text-align:center">
+ <div style="font-size:11.5px;font-weight:600;color:var(--text-muted);margin-bottom:4px">XP kiếm được hôm nay</div>
+ <div style="font-size:28px;font-weight:900;color:var(--blue);font-family:'JetBrains Mono',monospace" id="todayXp">+0 XP</div>
+ <div style="font-size:11.5px;color:var(--text-muted);margin-top:2px">Mục tiêu: <strong>80 XP</strong></div>
+ <div style="height:6px;background:var(--blue-mid);border-radius:10px;margin-top:8px;overflow:hidden">
+ <div id="dayXpBar" style="height:100%;width:0;background:var(--blue);border-radius:10px;transition:width 1.2s ease"></div>
+ </div>
+ </div>
+ </div>
+
+ </div>
+
+
+
+</div><!-- /#view-dashboard -->
+
+<div id="view-dethithu" style="display:none">
+
+ <!-- ╔══════════════════════════════════════╗
+ ║ TRANG 1: DANH SÁCH ĐỀ THI ║
+ ╚══════════════════════════════════════╝ -->
+ <div id="dt-page-list">
+ <div class="topbar">
+ <div><h1>Đề Thi Thử THPTQG </h1><p>Toàn bộ đề thi — làm bài trực tiếp, có đáp án &amp; giải thích chi tiết</p></div>
+ </div>
+
+ <!-- Banner stats -->
+ <div class="dt-banner mb-4">
+ <div class="si"><span class="n">0</span><span class="l">Đề thi có sẵn</span></div>
+ <div class="si"><span class="n">50</span><span class="l">Câu hỏi mỗi đề</span></div>
+ <div class="si"><span class="n">60'</span><span class="l">Thời gian làm bài</span></div>
+ <div class="si"><span class="n">0</span><span class="l">Lượt làm bài</span></div>
+ <div style="margin-left:auto"><span style="font-size:.82rem;opacity:.8;">Bám sát cấu trúc đề thi THPTQG mới nhất</span></div>
+ </div>
+
+ <!-- Filter + Search -->
+ <div class="dt-filterbar">
+ <button class="dt-filter-btn active" onclick="dtFilterExam('all',this)">Tất cả</button>
+ <button class="dt-filter-btn" onclick="dtFilterExam('2024',this)">THPTQG 2024</button>
+ <button class="dt-filter-btn" onclick="dtFilterExam('2023',this)">THPTQG 2023</button>
+ <button class="dt-filter-btn" onclick="dtFilterExam('2022',this)">THPTQG 2022</button>
+ <button class="dt-filter-btn" onclick="dtFilterExam('thu',this)">Đề thi thử</button>
+ <button class="dt-filter-btn" onclick="dtFilterExam('easy',this)">Cơ bản</button>
+ <button class="dt-filter-btn" onclick="dtFilterExam('medium',this)">Trung bình</button>
+ <button class="dt-filter-btn" onclick="dtFilterExam('hard',this)">Nâng cao</button>
+ <div class="dt-search-wrap" style="margin-left:auto">
+ <i class="bi bi-search"></i>
+ <input type="text" id="dt-examSearch" placeholder="Tìm đề thi..." oninput="dtSearchExam()">
+ </div>
+ </div>
+
+ <!-- Section: THPTQG chính thức -->
+ <div class="dt-section-label"><i class="bi bi-award"></i>Đề thi THPTQG chính thức</div>
+ <div class="row g-3 mb-4" id="dt-exam-grid-official"></div>
+
+ <!-- Section: Đề thi thử -->
+ <div class="dt-section-label"><i class="bi bi-journal-text"></i>Đề thi thử tổng hợp</div>
+ <div class="row g-3" id="dt-exam-grid-practice"></div>
+ </div><!-- /#dt-page-list -->
+
+
+ <!-- ╔══════════════════════════════════════╗
+ ║ TRANG 2: LÀM BÀI THI ║
+ ╚══════════════════════════════════════╝ -->
+ <div id="dt-page-exam">
+ <div class="dt-exam-topbar">
+ <button onclick="dtConfirmExit()" style="background:none;border:none;cursor:pointer;color:#888;font-size:1.1rem;" title="Thoát">
+ <i class="bi bi-arrow-left-circle"></i>
+ </button>
+ <span class="dt-exam-topbar-title" id="dt-exam-topbar-title"></span>
+ <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+ <div class="dt-progress-info" id="dt-exam-progress-text"></div>
+ <div class="dt-timer-box" id="dt-timerBox">
+ <i class="bi bi-clock-fill"></i>
+ <span class="dt-timer-val" id="dt-timerVal">60:00</span>
+ </div>
+ <button class="dt-btn-submit" onclick="dtConfirmSubmit()">Nộp bài <i class="bi bi-send ms-1"></i></button>
+ </div>
+ </div>
+ <div class="dt-exam-progress-bar">
+ <div class="bar" id="dt-examProgressBar" style="width:0%"></div>
+ </div>
+
+ <div class="dt-exam-layout">
+ <!-- Câu hỏi -->
+ <div class="dt-q-panel">
+ <div class="dt-q-header">
+ <div>
+ <div class="dt-q-part-label" id="dt-q-part-label"></div>
+ </div>
+ <div class="ms-auto dt-q-num-badge" id="dt-q-num-badge">Câu 1 / 50</div>
+ </div>
+ <div class="dt-q-body" id="dt-q-body"></div>
+ <div class="dt-q-nav">
+ <button class="dt-btn-nav" id="dt-btn-prev" onclick="dtPrevQuestion()"><i class="bi bi-chevron-left"></i> Câu trước</button>
+ <button class="dt-btn-nav" id="dt-btn-skip" onclick="dtSkipQuestion()"><i class="bi bi-skip-forward"></i> Bỏ qua</button>
+ <button class="dt-btn-nav" id="dt-btn-next" onclick="dtNextQuestion()">Câu tiếp <i class="bi bi-chevron-right"></i></button>
+ </div>
+ </div>
+
+ <!-- Sidebar navigator -->
+ <div class="dt-q-sidebar">
+ <div class="dt-sidebar-box">
+ <h6>Bảng câu hỏi</h6>
+ <div class="dt-q-grid" id="dt-q-grid"></div>
+ <div class="dt-legend mt-2">
+ <div class="dt-legend-item"><div class="dt-legend-dot" style="background:#f9f9f9;border:1.5px solid #ddd;"></div>Chưa làm</div>
+ <div class="dt-legend-item"><div class="dt-legend-dot" style="background:#fff0f0;border:1.5px solid #2d6ef5;"></div>Đã chọn</div>
+ <div class="dt-legend-item"><div class="dt-legend-dot" style="background:#f5f6f8;border:1.5px solid #aaa;"></div>Bỏ qua</div>
+ </div>
+ </div>
+ <div class="dt-sidebar-box">
+ <h6>Tiến độ</h6>
+ <div style="font-size:.82rem;color:#555;line-height:1.8;">
+ <div> Đã trả lời: <strong id="dt-sb-answered">0</strong></div>
+ <div>⏭ Bỏ qua: <strong id="dt-sb-skipped">0</strong></div>
+ <div>⬜ Chưa làm: <strong id="dt-sb-unanswered">50</strong></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div><!-- /#dt-page-exam -->
+
+
+ <!-- ╔══════════════════════════════════════╗
+ ║ TRANG 3: KẾT QUẢ ║
+ ╚══════════════════════════════════════╝ -->
+ <div id="dt-page-result">
+ <div class="container py-4">
+ <div class="dt-result-hero">
+ <div class="dt-result-score-ring">
+ <span class="score-num" id="dt-res-score">8.0</span>
+ <span class="score-max">/ 10.0</span>
+ </div>
+ <div class="dt-result-grade" id="dt-res-grade">Giỏi </div>
+ <div class="dt-result-msg" id="dt-res-msg">Xuất sắc!</div>
+ <div class="dt-result-time-spent"><i class="bi bi-clock me-1"></i>Thời gian: <strong id="dt-res-time">45:20</strong></div>
+ </div>
+
+ <div class="dt-result-stats">
+ <div class="dt-rs-card correct"><span class="rs-num" id="dt-res-correct">0</span><span class="rs-lbl">Câu đúng </span></div>
+ <div class="dt-rs-card wrong"><span class="rs-num" id="dt-res-wrong">0</span><span class="rs-lbl">Câu sai </span></div>
+ <div class="dt-rs-card skip"><span class="rs-num" id="dt-res-skip">0</span><span class="rs-lbl">Bỏ qua ⏭</span></div>
+ <div class="dt-rs-card"><span class="rs-num" id="dt-res-pct">0%</span><span class="rs-lbl">Tỉ lệ đúng</span></div>
+ </div>
+
+ <div style="display:flex;gap:1rem;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap">
+ <button class="dt-btn-back-list" onclick="dtGoToList()"><i class="bi bi-list-ul me-1"></i>Danh sách đề</button>
+ <button class="dt-btn-retake" onclick="dtRetakeExam()"><i class="bi bi-arrow-clockwise me-1"></i>Làm lại</button>
+ </div>
+
+ <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden;">
+ <div style="background:#1a1a2e;color:#fff;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.6rem;">
+ <i class="bi bi-card-checklist"></i>
+ <strong style="font-size:.9rem;">Xem lại đáp án chi tiết</strong>
+ </div>
+ <div id="dt-review-list"></div>
+ </div>
+ </div>
+ </div><!-- /#dt-page-result -->
+
+</div><!-- /#view-dethithu -->
+
+<!-- Paywall modal -->
+<div id="dt-pw-modal">
+ <div class="dt-pw-box">
+ <button class="dt-pw-close" onclick="dtClosePW()">x</button>
+ <div class="dt-pw-badge"><i class="bi bi-shield-lock-fill"></i> Nội dung thành viên</div>
+ <div class="dt-pw-illu"><i class="bi bi-journal-text"></i></div>
+ <div class="dt-pw-title">Mở khóa toàn bộ đề thi</div>
+ <div class="dt-pw-desc">Đề thi này dành riêng cho học viên English Center. Đăng ký học để luyện tập không giới hạn.</div>
+ <div class="dt-pw-perks">
+ <div class="dt-pw-perk"><i class="bi bi-check-circle-fill"></i> Toàn bộ đề THPTQG chính thức từ 2020–2024</div>
+ <div class="dt-pw-perk"><i class="bi bi-check-circle-fill"></i> Đề thi thử do giáo viên English Center biên soạn</div>
+ <div class="dt-pw-perk"><i class="bi bi-check-circle-fill"></i> Đáp án & giải thích chi tiết sau mỗi bài thi</div>
+ <div class="dt-pw-perk"><i class="bi bi-check-circle-fill"></i> Thống kê & theo dõi tiến độ cá nhân</div>
+ </div>
+ <button class="dt-pw-btn1" onclick="dtClosePW();window.location.href='dangky.html'"> Đăng ký học ngay</button>
+ <button class="dt-pw-btn2" onclick="dtClosePW();window.location.href='dangnhap.html'">Tôi đã có tài khoản — Đăng nhập</button>
+ <div class="dt-pw-note">Các đề miễn phí luôn mở — không cần đăng ký.</div>
+ </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+ TÀI LIỆU ÔN THI
+══════════════════════════════════════════ -->
+<div id="view-tailieu" style="display:none">
+ <div class="topbar">
+ <div><h1>Tài Liệu Ôn Thi </h1><p>PDF, video bài giảng theo từng chủ đề — tải xuống không giới hạn</p></div>
+ </div>
+ <div style="background:linear-gradient(90deg,#1a3fbf 0%,#4a2da8 45%,#6d3b8a 75%,#8b4a6b 100%);border-radius:14px;padding:1.1rem 1.6rem;color:#fff;display:flex;gap:2.5rem;flex-wrap:wrap;align-items:center;margin-bottom:20px">
+ <div><span style="font-size:1.5rem;font-weight:900;display:block;line-height:1.1">0</span><span style="font-size:.73rem;opacity:.8">Bài giảng video</span></div>
+ <div><span style="font-size:1.5rem;font-weight:900;display:block;line-height:1.1">0</span><span style="font-size:.73rem;opacity:.8">Tài liệu PDF</span></div>
+ <div><span style="font-size:1.5rem;font-weight:900;display:block;line-height:1.1">0</span><span style="font-size:.73rem;opacity:.8">Thẻ flashcard</span></div>
+ <div><span style="font-size:1.5rem;font-weight:900;display:block;line-height:1.1">0</span><span style="font-size:.73rem;opacity:.8">Chủ đề ôn thi</span></div>
+ </div>
+ <div style="display:flex;gap:0;flex-wrap:wrap;border-bottom:2px solid var(--border);margin-bottom:20px">
+ <button onclick="tlSwitch('nguphap',this)" class="tl-tab tl-active"><i class="bi bi-list-check"></i> Ngữ pháp</button>
+ <button onclick="tlSwitch('tuvung',this)" class="tl-tab"><i class="bi bi-alphabet"></i> Từ vựng</button>
+ <button onclick="tlSwitch('dochieu',this)" class="tl-tab"><i class="bi bi-book"></i> Đọc hiểu</button>
+ <button onclick="tlSwitch('nguam',this)" class="tl-tab"><i class="bi bi-headphones"></i> Ngữ âm & Nghe</button>
+ <button onclick="tlSwitch('luyen-de',this)" class="tl-tab"><i class="bi bi-journal-text"></i> Luyện đề</button>
+ <button onclick="tlSwitch('captoc',this)" class="tl-tab"><i class="bi bi-lightning"></i> Ôn cấp tốc</button>
+ </div>
+ <div style="font-size:.67rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#c0392b;margin-bottom:12px;display:flex;align-items:center;gap:.5rem"><i class="bi bi-file-earmark-pdf"></i>Tài liệu PDF<span style="flex:1;height:1px;background:var(--border);display:block"></span></div>
+ <div class="row g-3 mb-4" id="tl-pdf-grid"></div>
+ <div style="font-size:.67rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#2563eb;margin-bottom:12px;display:flex;align-items:center;gap:.5rem"><i class="bi bi-play-circle"></i>Video bài giảng<span style="flex:1;height:1px;background:var(--border);display:block"></span></div>
+ <div class="row g-3 mb-4" id="tl-video-grid"></div>
+ <div style="font-size:.67rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#d97706;margin-bottom:12px;display:flex;align-items:center;gap:.5rem"><i class="bi bi-layers-fill"></i>Thẻ lật (Flashcard)<span style="flex:1;height:1px;background:var(--border);display:block"></span></div>
+ <div id="tl-fc-area" style="margin-bottom:24px"></div>
+</div>
+<div id="view-ketqua" style="display:none">
+ <div style="background:linear-gradient(135deg,#0f172a 0%,#1a1040 50%,#0c2340 100%);border-radius:var(--radius);padding:28px 32px;position:relative;overflow:hidden;margin-bottom:24px;">
+ <div style="position:relative">
+ <div style="font-size:24px;font-weight:900;color:#fff;letter-spacing:-.4px"> Kết quả &amp; Tiến độ</div>
+ <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:4px">Tổng hợp kết quả học tập và lộ trình cải thiện của bạn</div>
+ </div>
+ <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;position:relative;">
+ <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:14px 16px;"><div style="font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#60a5fa;line-height:1">7.4</div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:600;margin-top:3px">Điểm TB tổng</div></div>
+ <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:14px 16px;"><div style="font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#4ade80;line-height:1">+0.8</div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:600;margin-top:3px">Cải thiện tháng này</div></div>
+ <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:14px 16px;"><div style="font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#fff;line-height:1">18</div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:600;margin-top:3px">Bài kiểm tra đã làm</div></div>
+ <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:14px 16px;"><div style="font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#c084fc;line-height:1">82%</div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:600;margin-top:3px">Tỉ lệ hoàn thành</div></div>
+ </div>
+ </div>
+
+ <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;">
+ <div>
+ <div class="card">
+ <div class="card-title"><i class="bi bi-pentagon-fill" style="color:var(--blue)"></i> Tiến độ 4 kỹ năng <span style="font-size:11px;font-weight:600;color:var(--text-muted);margin-left:auto">Cập nhật hôm nay</span></div>
+ <div id="kq-skillBars"></div>
+ </div>
+
+ <div class="card">
+ <div class="card-title"><i class="bi bi-graph-up-arrow" style="color:var(--green)"></i> Điểm thi thử theo tuần <span style="font-size:11px;font-weight:600;color:var(--text-muted);margin-left:auto">8 tuần gần nhất</span></div>
+ <div id="kq-weekChart" style="display:flex;align-items:flex-end;gap:10px;padding:8px 4px 0;min-height:160px;"></div>
+ <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap" id="kq-weekLabels"></div>
+ </div>
+
+ <div class="card">
+ <div class="card-title"><i class="bi bi-journal-check" style="color:var(--purple)"></i> Lịch sử bài thi thử <span style="font-size:11px;font-weight:600;color:var(--text-muted);margin-left:auto">18 bài</span></div>
+ <table style="width:100%;border-collapse:collapse">
+ <thead><tr>
+ <th style="font-size:10.5px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:0 8px 10px 0;text-align:left;border-bottom:1.5px solid var(--border)">#</th>
+ <th style="font-size:10.5px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:0 8px 10px 0;text-align:left;border-bottom:1.5px solid var(--border)">Tên đề thi</th>
+ <th style="font-size:10.5px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:0 8px 10px 0;text-align:left;border-bottom:1.5px solid var(--border)">Kỹ năng</th>
+ <th style="font-size:10.5px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:0 8px 10px 0;text-align:left;border-bottom:1.5px solid var(--border)">Điểm</th>
+ <th style="font-size:10.5px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;padding:0 0 10px;text-align:left;border-bottom:1.5px solid var(--border)">Ngày</th>
+ </tr></thead>
+ <tbody id="kq-examHistory"></tbody>
+ </table>
+ </div>
+ </div>
+
+ <div>
+ <div class="card">
+ <div class="card-title" style="color:var(--orange)"><i class="bi bi-mic-fill"></i> Speaking — Chủ đề</div>
+ <div id="kq-speakingProgress"></div>
+ </div>
+ <div class="card">
+ <div class="card-title" style="color:var(--purple)"><i class="bi bi-bullseye"></i> Mục tiêu tháng 3</div>
+ <div id="kq-monthGoals"></div>
+ </div>
+ <div class="card">
+ <div class="card-title"><i class="bi bi-clock-history" style="color:var(--text-muted)"></i> Hoạt động gần đây</div>
+ <div id="kq-recentActivity"></div>
+ </div>
+ </div>
+ </div>
+</div><!-- /#view-ketqua -->
+<div id="view-huyhieu" style="display:none">
+ <div style="background:linear-gradient(135deg,#1c0a00 0%,#2d1a00 40%,#1a0f3d 100%);border-radius:var(--radius);padding:28px 32px;position:relative;overflow:hidden;margin-bottom:24px;">
+ <div style="position:relative">
+ <div style="font-size:24px;font-weight:900;color:#fff;letter-spacing:-.4px"> Huy hiệu &amp; Xếp hạng</div>
+ <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:4px">Thành tích học tập và vị trí của bạn trong lớp</div>
+ </div>
+ <div style="display:flex;align-items:center;gap:20px;margin-top:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 20px;position:relative;">
+ <div style="font-size:42px;filter:drop-shadow(0 0 12px rgba(245,158,11,.6))"></div>
+ <div style="flex:1">
+ <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.8px">Cấp độ hiện tại</div>
+ <div style="font-size:20px;font-weight:900;color:#fbbf24;letter-spacing:-.3px">Chưa xếp hạng</div>
+ <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">0 XP đã tích lũy</div>
+ <div style="margin-top:10px">
+ <div style="height:6px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden"><div id="hh-rankFill" style="height:100%;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:10px;width:0;transition:width .8s ease"></div></div>
+ <div style="font-size:10.5px;color:rgba(255,255,255,.4);margin-top:4px;font-family:'JetBrains Mono',monospace">Dữ liệu cấp độ sẽ cập nhật theo XP thật</div>
+ </div>
+ </div>
+ </div>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;position:relative;">
+ <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;"><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#fbbf24;line-height:1">0</div><div style="font-size:10.5px;color:rgba(255,255,255,.45);font-weight:600;margin-top:3px">Huy hiệu đã đạt</div></div>
+ <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;"><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#4ade80;line-height:1">-</div><div style="font-size:10.5px;color:rgba(255,255,255,.45);font-weight:600;margin-top:3px">Xếp hạng lớp</div></div>
+ <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;"><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:#c084fc;line-height:1">0</div><div style="font-size:10.5px;color:rgba(255,255,255,.45);font-weight:600;margin-top:3px">Tổng XP</div></div>
+ </div>
+ </div>
+
+ <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;">
+ <div>
+ <div class="card">
+ <div class="card-title"><i class="bi bi-patch-check-fill" style="color:#f59e0b"></i> Bộ sưu tập huy hiệu</div>
+ <div style="display:flex;gap:6px;margin-bottom:16px">
+ <button class="tab-btn active" onclick="hhFilterBadge(this,'all')">Tất cả</button>
+ <button class="tab-btn" onclick="hhFilterBadge(this,'earned')">Đã đạt</button>
+ <button class="tab-btn" onclick="hhFilterBadge(this,'locked')">Chưa đạt</button>
+ </div>
+ <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px" id="hh-badgeGrid"></div>
+ </div>
+ </div>
+
+ <div>
+ <div class="card">
+ <div class="card-title" style="color:var(--blue)"><i class="bi bi-people-fill"></i> Bảng xếp hạng lớp</div>
+ <div id="hh-leaderboard"></div>
+ </div>
+ <div class="card">
+ <div class="card-title" style="color:var(--purple)"><i class="bi bi-stars"></i> Huy hiệu sắp đạt được</div>
+ <div id="hh-nextBadges"></div>
+ </div>
+ </div>
+ </div>
+</div><!-- /#view-huyhieu -->
+<div id="view-lichhoc" style="display:none">
+ <!-- HERO -->
+ <div class="lh-hero">
+ <div class="lh-hero-orb lh-hero-orb-1"></div>
+ <div class="lh-hero-orb lh-hero-orb-2"></div>
+ <div class="lh-hero-top">
+ <div style="position:relative;z-index:1">
+ <div class="lh-hero-title"> Lịch học</div>
+ <div class="lh-hero-sub" id="lh-heroSub">đang tải...</div>
+ </div>
+ <div style="position:relative;z-index:1">
+ <button class="lh-btn-ghost" onclick="lhGoToday()"><i class="bi bi-crosshair"></i> Hôm nay</button>
+ </div>
+ </div>
+ <div class="lh-week-strip">
+ <div class="lh-wstrip-nav" onclick="lhShiftW(-1)"><i class="bi bi-chevron-left"></i></div>
+ <div class="lh-week-days" id="lh-weekDays"></div>
+ <div class="lh-wstrip-nav" onclick="lhShiftW(1)"><i class="bi bi-chevron-right"></i></div>
+ </div>
+ </div>
+
+ <!-- CONTENT -->
+ <div class="lh-content">
+ <div class="lh-stat-row">
+ <div class="lh-stat-c"><div class="lh-stat-icon" style="background:var(--blue-light);color:var(--blue)"><i class="bi bi-calendar-check"></i></div><div><div class="lh-stat-val" style="color:var(--blue)">5</div><div class="lh-stat-lbl">Buổi tuần này</div></div></div>
+ <div class="lh-stat-c"><div class="lh-stat-icon" style="background:var(--red-light);color:var(--red)"><i class="bi bi-pencil-square"></i></div><div><div class="lh-stat-val" style="color:var(--red)">2</div><div class="lh-stat-lbl">Thi thử sắp tới</div></div></div>
+ <div class="lh-stat-c"><div class="lh-stat-icon" style="background:var(--purple-light);color:var(--purple)"><i class="bi bi-camera-video"></i></div><div><div class="lh-stat-val" style="color:var(--purple)">2</div><div class="lh-stat-lbl">Live session</div></div></div>
+ <div class="lh-stat-c"><div class="lh-stat-icon" style="background:var(--green-light);color:var(--green)"><i class="bi bi-clock-history"></i></div><div><div class="lh-stat-val" style="color:var(--green)">8.5h</div><div class="lh-stat-lbl">Tổng thời lượng</div></div></div>
+ </div>
+
+ <div class="lh-layout">
+ <div>
+ <div class="lh-tl-header">
+ <div class="lh-tl-title" id="lh-tlTitle">Lịch học</div>
+ <div class="lh-filter-tabs">
+ <button class="lh-ftab active" onclick="lhSetF(this,'all')">Tất cả</button>
+ <button class="lh-ftab" onclick="lhSetF(this,'exam')"> Thi</button>
+ <button class="lh-ftab" onclick="lhSetF(this,'live')"> Live</button>
+ <button class="lh-ftab" onclick="lhSetF(this,'lesson')"> Ôn</button>
+ <button class="lh-ftab" onclick="lhSetF(this,'speaking')"> Speaking</button>
+ </div>
+ </div>
+ <div id="lh-timeline"></div>
+ </div>
+ <div style="display:flex;flex-direction:column;gap:14px">
+ <div class="card" style="padding:15px 16px">
+ <div class="lh-mini-cal-hdr">
+ <div class="lh-mini-cal-label" id="lh-mCalLabel"></div>
+ <button class="lh-mini-nav-btn" onclick="lhShiftM(-1)"><i class="bi bi-chevron-left"></i></button>
+ <button class="lh-mini-nav-btn" onclick="lhShiftM(1)"><i class="bi bi-chevron-right"></i></button>
+ </div>
+ <div class="lh-mini-grid" id="lh-miniCal"></div>
+ </div>
+ <div id="lh-cdWrap"></div>
+ <div class="card">
+ <div class="card-title" style="color:var(--purple)"><i class="bi bi-calendar-event-fill"></i> Sắp diễn ra</div>
+ <div id="lh-upcomingList"></div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- EVENT MODAL -->
+ <div class="lh-modal-bg" id="lh-evModal">
+ <div class="lh-modal">
+ <div class="lh-m-head" id="lh-evHead"></div>
+ <div class="lh-m-body" id="lh-evBody"></div>
+ </div>
+ </div>
+ <div class="toast" id="lh-toast"></div>
+</div><!-- /#view-lichhoc -->
+<div id="view-spk" style="display:none">
+ <div class="topbar">
+ <div>
+ <h1> Luyện Speaking AI</h1>
+ <p>AI chấm điểm phát âm, ngữ điệu và độ trôi chảy theo thời gian thực</p>
+ </div>
+ <div style="display:flex;align-items:center;gap:8px">
+ <div style="display:flex;align-items:center;gap:6px;background:var(--orange-light);color:var(--orange);border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700">
+ <i class="bi bi-lightning-charge-fill"></i> +15 XP / buổi
+ </div>
+ </div>
+ </div>
+
+ <div class="stat-mini" style="display:flex;gap:10px;margin-bottom:20px">
+ <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px">
+ <div style="width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--orange-light);color:var(--orange)"><i class="bi bi-mic-fill"></i></div>
+ <div><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--orange)">12</div><div style="font-size:11.5px;color:var(--text-muted)">Buổi đã luyện</div></div>
+ </div>
+ <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px">
+ <div style="width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--blue-light);color:var(--blue)"><i class="bi bi-graph-up-arrow"></i></div>
+ <div><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--blue)">7.4</div><div style="font-size:11.5px;color:var(--text-muted)">Điểm TB Speaking</div></div>
+ </div>
+ <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px">
+ <div style="width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--green-light);color:var(--green)"><i class="bi bi-arrow-up-circle-fill"></i></div>
+ <div><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--green)">+0.8</div><div style="font-size:11.5px;color:var(--text-muted)">Cải thiện tháng này</div></div>
+ </div>
+ <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px">
+ <div style="width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--purple-light);color:var(--purple)"><i class="bi bi-clock-history"></i></div>
+ <div><div style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--purple)">3.5h</div><div style="font-size:11.5px;color:var(--text-muted)">Tổng thời gian luyện</div></div>
+ </div>
+ </div>
+
+ <div style="display:grid;grid-template-columns:1fr 320px;gap:20px">
+ <div>
+ <div id="spk-topicSection">
+ <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+ <div style="font-size:15px;font-weight:800;color:var(--text)">Chọn chủ đề luyện tập</div>
+ <div style="display:flex;flex-wrap:wrap;gap:6px" id="spk-filterBar">
+ <button class="tab-btn active" onclick="spkFilterLevel(this,'all')">Tất cả · 15</button>
+ <button class="tab-btn" onclick="spkFilterLevel(this,'easy')" style="color:var(--green)"> Dễ</button>
+ <button class="tab-btn" onclick="spkFilterLevel(this,'medium')" style="color:var(--yellow)"> Trung bình</button>
+ <button class="tab-btn" onclick="spkFilterLevel(this,'hard')" style="color:var(--red)"> Khó</button>
+ </div>
+ </div>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px" id="spk-topicGrid"></div>
+ </div>
+
+ <div id="spk-practicePanel" style="display:none;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+ <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+ <button onclick="spkBackToTopics()" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:13px;font-weight:600;font-family:'Be Vietnam Pro',sans-serif"><i class="bi bi-arrow-left"></i> Đổi chủ đề</button>
+ <div id="spk-practiceTopic" style="font-size:13.5px;font-weight:800;color:var(--text)"></div>
+ <div style="font-size:12px;font-weight:700;color:var(--orange)"><i class="bi bi-lightning-charge-fill"></i> Câu <span id="spk-questionNum">1</span> / <span id="spk-questionTotal">5</span></div>
+ </div>
+ <!-- Progress bar tiến độ chủ đề -->
+ <div style="margin-bottom:18px">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+ <span style="font-size:11px;font-weight:700;color:var(--text-muted)">Tiến độ chủ đề</span>
+ <span style="font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--blue)" id="spk-headerProgressPct">0%</span>
+ </div>
+ <div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden">
+ <div id="spk-headerProgress" style="height:100%;border-radius:10px;background:linear-gradient(90deg,var(--blue),#60a5fa);width:0%;transition:width .6s ease"></div>
+ </div>
+ </div>
+
+ <div style="background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 60%,#1e3a5f 100%);border-radius:var(--radius);padding:32px;text-align:center;position:relative;overflow:hidden;margin-bottom:20px">
+ <div style="font-size:10.5px;font-weight:800;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Câu hỏi — đọc to và rõ ràng</div>
+ <div style="font-size:17px;font-weight:700;color:#fff;line-height:1.6;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto" id="spk-promptText">Đang tải câu hỏi...</div>
+ <div style="font-size:12.5px;color:rgba(255,255,255,0.5);margin-bottom:28px" id="spk-promptHint"></div>
+ <div style="display:flex;align-items:center;justify-content:center;gap:3px;height:36px;margin:12px 0;opacity:0;transition:opacity .3s" id="spk-waveform">
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:8px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:14px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:20px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:28px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:20px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:14px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:8px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:14px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:28px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:18px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:10px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:22px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:30px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:18px"></div>
+ <div class="wave-bar" style="width:4px;border-radius:4px;background:rgba(255,255,255,0.7);height:10px"></div>
+ </div>
+ <div style="position:relative;display:inline-block;margin-bottom:16px">
+ <div class="mic-ring" style="position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(26,110,245,0.4);animation:ringPulse 1.5s ease-out infinite;opacity:0"></div>
+ <div class="mic-ring" style="position:absolute;inset:-16px;border-radius:50%;border:2px solid rgba(26,110,245,0.4);animation:ringPulse 1.5s ease-out infinite;animation-delay:.5s;opacity:0"></div>
+ <button id="spk-micBtn" onclick="spkToggleRecord()" style="width:80px;height:80px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:30px;position:relative;z-index:1;transition:transform .15s,box-shadow .15s;background:var(--blue);box-shadow:0 8px 28px rgba(26,110,245,0.5)"></button>
+ </div>
+ <div style="font-size:22px;font-weight:900;color:#fff;font-family:'JetBrains Mono',monospace;margin:8px 0 4px" id="spk-timerDisplay">0:00</div>
+ <div style="font-size:13px;color:rgba(255,255,255,0.7);font-weight:600" id="spk-micStatus">Nhấn micro để bắt đầu nói</div>
+ </div>
+
+ <div id="spk-scorePanel" style="display:none">
+ <!-- Tiến độ chủ đề — hiện ngay trong score panel -->
+ <div id="spk-scorePanelProgress" style="background:var(--blue-light);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+ <i class="bi bi-graph-up-arrow" style="color:var(--blue);font-size:16px;flex-shrink:0"></i>
+ <div style="flex:1">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+ <span style="font-size:12px;font-weight:700;color:var(--blue)">Tiến độ chủ đề</span>
+ <span style="font-size:12px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--blue)" id="spk-scorePanelPct">0%</span>
+ </div>
+ <div style="height:7px;background:var(--blue-mid);border-radius:10px;overflow:hidden">
+ <div id="spk-scorePanelBar" style="height:100%;border-radius:10px;background:var(--blue);width:0%;transition:width .7s ease"></div>
+ </div>
+ <div style="font-size:11px;color:var(--blue);margin-top:4px;font-weight:600" id="spk-scorePanelLabel"></div>
+ </div>
+ </div>
+ <div style="text-align:center;margin-bottom:20px">
+ <div id="spk-scoreCircle" style="width:100px;height:100px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px">
+ <div id="spk-scoreNumber" style="font-size:34px;font-weight:900;font-family:'JetBrains Mono',monospace;line-height:1">—</div>
+ <div style="font-size:12px;font-weight:600;opacity:.7">/10</div>
+ </div>
+ <div style="font-size:13.5px;font-weight:700;color:var(--text)" id="spk-scoreFeedback"></div>
+ </div>
+ <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px" id="spk-criteriaGrid"></div>
+ <div style="background:var(--bg);border-radius:10px;padding:14px 16px;margin-bottom:16px">
+ <div style="font-size:12px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px"> Nhận xét từ AI</div>
+ <div style="font-size:13px;color:var(--text);line-height:1.7" id="spk-aiComment"></div>
+ </div>
+ <div style="display:flex;gap:10px">
+ <button onclick="spkRetryQuestion()" style="flex:1;padding:10px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--text-muted)"><i class="bi bi-arrow-repeat"></i> Thử lại</button>
+ <button onclick="spkNextQuestion()" class="btn-primary" style="flex:1;justify-content:center"><i class="bi bi-arrow-right"></i> Câu tiếp theo</button>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div style="display:flex;flex-direction:column;gap:20px">
+ <div class="card">
+ <div class="card-title" style="color:var(--orange)"><i class="bi bi-graph-up-arrow"></i> Tiến độ Speaking</div>
+ <div style="display:flex;flex-direction:column;gap:10px">
+ <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600;color:var(--text-muted)">Phát âm</span><span style="font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace">7.8/10</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="height:100%;width:78%;background:var(--blue);border-radius:10px"></div></div></div>
+ <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600;color:var(--text-muted)">Độ trôi chảy</span><span style="font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace">7.2/10</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="height:100%;width:72%;background:var(--purple);border-radius:10px"></div></div></div>
+ <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600;color:var(--text-muted)">Từ vựng</span><span style="font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace">7.5/10</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="height:100%;width:75%;background:var(--green);border-radius:10px"></div></div></div>
+ <div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600;color:var(--text-muted)">Ngữ điệu</span><span style="font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace">6.8/10</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="height:100%;width:68%;background:var(--orange);border-radius:10px"></div></div></div>
+ </div>
+ <div style="margin-top:12px;padding:10px 12px;background:var(--yellow-light);border-radius:8px;font-size:12px;color:var(--yellow);font-weight:600"> Ngữ điệu là điểm yếu nhất — AI khuyến nghị luyện chủ đề <strong>Intonation</strong></div>
+ </div>
+ <div class="card">
+ <div class="card-title" style="color:var(--purple)"><i class="bi bi-lightbulb-fill"></i> Mẹo từ AI</div>
+ <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px"><div style="width:22px;height:22px;border-radius:50%;background:var(--orange-light);color:var(--orange);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px">1</div><div>Thở đều trước khi nói để tránh ngắt quãng giữa câu.</div></div>
+ <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px"><div style="width:22px;height:22px;border-radius:50%;background:var(--orange-light);color:var(--orange);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px">2</div><div>Nhấn trọng âm đúng chỗ — tránh đọc đều tất cả các âm tiết.</div></div>
+ <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px"><div style="width:22px;height:22px;border-radius:50%;background:var(--orange-light);color:var(--orange);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px">3</div><div>Dùng linking sounds khi đọc cụm từ (e.g. <em>"an apple"</em> → "ən æpl").</div></div>
+ <div style="display:flex;gap:10px;padding:10px 0;font-size:12.5px"><div style="width:22px;height:22px;border-radius:50%;background:var(--orange-light);color:var(--orange);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px">4</div><div>Ghi âm lại rồi tự nghe — so sánh với bản gốc để phát hiện lỗi.</div></div>
+ </div>
+ <div class="card">
+ <div class="card-title"><i class="bi bi-clock-history"></i> Lịch sử luyện tập</div>
+ <div id="spk-historyList"></div>
+ </div>
+ </div>
+ </div>
+</div><!-- /#view-spk -->
+<div id="view-hoidap" style="display:none">
+ <div class="topbar">
+ <div><h1>Hỏi đáp Giáo viên </h1><p>Đặt câu hỏi và nhận giải đáp từ giáo viên trong vòng 24 giờ</p></div>
+ <div class="topbar-right">
+ <button onclick="hdOpenNew()" class="btn-primary"><i class="bi bi-plus-lg"></i> Đặt câu hỏi mới</button>
+ </div>
+ </div>
+ <div style="background:linear-gradient(90deg,#1a3fbf 0%,#2d6aa8 40%,#1a6ef5 100%);border-radius:14px;padding:1.1rem 1.6rem;color:#fff;display:flex;gap:2.5rem;flex-wrap:wrap;align-items:center;margin-bottom:20px">
+ <div><span style="font-size:1.5rem;font-weight:900;display:block;line-height:1.1">0</span><span style="font-size:.73rem;opacity:.85">Tổng câu hỏi</span></div>
+ <div><span style="font-size:1.5rem;font-weight:900;display:block;line-height:1.1">0</span><span style="font-size:.73rem;opacity:.85">Đã trả lời</span></div>
+ <div><span style="font-size:1.5rem;font-weight:900;display:block;line-height:1.1">0</span><span style="font-size:.73rem;opacity:.85">Chờ phản hồi</span></div>
+ <div><span style="font-size:1.5rem;font-weight:900;display:block;line-height:1.1">~3h</span><span style="font-size:.73rem;opacity:.85">Thời gian phản hồi TB</span></div>
+ </div>
+ <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+ <button onclick="hdFilter('all',this)" class="tab-btn hd-tab active">Tất cả (8)</button>
+ <button onclick="hdFilter('pending',this)" class="tab-btn hd-tab">Chờ phản hồi (2)</button>
+ <button onclick="hdFilter('answered',this)" class="tab-btn hd-tab">Đã trả lời (5)</button>
+ <button onclick="hdFilter('closed',this)" class="tab-btn hd-tab">Đã đóng (1)</button>
+ </div>
+ <div id="hdList"></div>
+
+ <!-- Modal đặt câu hỏi -->
+ <div id="hdModal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center">
+ <div style="background:#fff;border-radius:20px;width:520px;max-width:calc(100vw - 32px);box-shadow:0 30px 80px rgba(0,0,0,.2);overflow:hidden">
+ <div style="padding:20px 22px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+ <div style="font-size:15px;font-weight:800"> Đặt câu hỏi mới</div>
+ <button onclick="hdCloseNew()" style="width:28px;height:28px;border-radius:7px;border:none;background:var(--bg);cursor:pointer;font-size:14px;color:var(--text-muted)">x</button>
+ </div>
+ <div style="padding:20px 22px">
+ <div style="margin-bottom:14px">
+ <label style="font-size:12px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px">CHỦ ĐỀ</label>
+ <select id="hdTopic" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;background:#fff">
+ <option>Ngữ pháp</option><option>Từ vựng</option><option>Đọc hiểu</option><option>Nghe hiểu</option><option>Phát âm</option><option>Đề thi thử</option><option>Khác</option>
+ </select>
+ </div>
+ <div style="margin-bottom:14px">
+ <label style="font-size:12px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px">TIÊU ĐỀ CÂU HỎI</label>
+ <input id="hdTitle" type="text" placeholder="Ví dụ: Phân biệt cách dùng 'used to' và 'be used to'..." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none">
+ </div>
+ <div style="margin-bottom:18px">
+ <label style="font-size:12px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px">NỘI DUNG CHI TIẾT</label>
+ <textarea id="hdContent" rows="4" placeholder="Mô tả chi tiết câu hỏi của bạn..." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;resize:vertical"></textarea>
+ </div>
+ <div style="display:flex;gap:10px;justify-content:flex-end">
+ <button onclick="hdCloseNew()" style="padding:9px 18px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;font-family:'Be Vietnam Pro',sans-serif">Huỷ</button>
+ <button onclick="hdSubmit()" style="padding:9px 18px;border-radius:8px;background:var(--blue);color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif"><i class="bi bi-send"></i> Gửi câu hỏi</button>
+ </div>
+ </div>
+ </div>
+ </div>
+</div><!-- /#view-hoidap -->
+<div id="view-settings" style="display:none">
+ <div class="topbar">
+ <div><h1>Cài đặt </h1><p>Quản lý tài khoản và tuỳ chỉnh trải nghiệm học tập</p></div>
+ </div>
+
+ <!-- 2-column layout -->
+ <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start">
+
+ <!-- CỘT TRÁI -->
+ <div style="display:flex;flex-direction:column;gap:16px">
+
+ <!-- Thông tin cá nhân -->
+ <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px">
+ <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:8px">
+ <i class="bi bi-person-circle" style="color:var(--blue)"></i> Thông tin cá nhân
+ </div>
+ <!-- Avatar + tên hiển thị -->
+ <div style="display:flex;align-items:center;gap:16px;padding:14px;background:var(--bg);border-radius:10px;margin-bottom:18px">
+ <div id="st-avatar-preview" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px;font-weight:800;flex-shrink:0">--</div>
+ <div style="flex:1;min-width:0">
+ <div id="st-name-preview" style="font-size:14px;font-weight:700">Đang tải</div>
+ <div id="st-email-preview" style="font-size:12px;color:var(--text-muted)">Đang tải</div>
+ </div>
+ <span style="font-size:11px;background:var(--blue-light);color:var(--blue);padding:3px 10px;border-radius:20px;font-weight:700">Cấp 4</span>
+ </div>
+ <!-- Form fields -->
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+ <div style="grid-column:1/-1">
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">HỌ VÀ TÊN</label>
+ <input id="st-name" type="text" value="" oninput="stPreviewName()" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">EMAIL</label>
+ <input id="st-email" type="email" value="" oninput="stPreviewEmail()" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">SỐ ĐIỆN THOẠI</label>
+ <input id="st-phone" type="text" value="0912 345 678" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">NGÀY SINH</label>
+ <input id="st-dob" type="date" value="2007-05-14" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">GIỚI TÍNH</label>
+ <select id="st-gender" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;background:#fff">
+ <option selected>Nữ</option><option>Nam</option><option>Khác</option>
+ </select>
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">TRƯỜNG HỌC</label>
+ <input id="st-school" type="text" value="THPT Chu Văn An" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+ </div>
+ </div>
+ <div style="margin-top:16px;display:flex;justify-content:flex-end">
+ <button onclick="stSaveProfile()" class="btn-primary"><i class="bi bi-check2"></i> Lưu thay đổi</button>
+ </div>
+ </div>
+
+ <!-- Bảo mật -->
+ <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px">
+ <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:8px">
+ <i class="bi bi-shield-lock" style="color:var(--purple)"></i> Bảo mật & Mật khẩu
+ </div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+ <div style="grid-column:1/-1">
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">MẬT KHẨU HIỆN TẠI</label>
+ <input id="st-pw-old" type="password" placeholder="••••••••" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--purple)'" onblur="this.style.borderColor='var(--border)'">
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">MẬT KHẨU MỚI</label>
+ <input id="st-pw-new" type="password" placeholder="••••••••" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--purple)'" onblur="this.style.borderColor='var(--border)'">
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">XÁC NHẬN MẬT KHẨU MỚI</label>
+ <input id="st-pw-confirm" type="password" placeholder="••••••••" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--purple)'" onblur="this.style.borderColor='var(--border)'">
+ </div>
+ </div>
+ <div style="margin-top:16px;display:flex;justify-content:flex-end">
+ <button onclick="stSavePw()" style="display:inline-flex;align-items:center;gap:7px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-sm);padding:9px 18px;font-size:13.5px;font-weight:700;font-family:'Be Vietnam Pro',sans-serif;cursor:pointer"><i class="bi bi-lock"></i> Đổi mật khẩu</button>
+ </div>
+ </div>
+
+ <!-- Vùng nguy hiểm -->
+ <div style="background:var(--bg-card);border:1.5px solid var(--red-light);border-radius:var(--radius);padding:22px">
+ <div style="font-size:14px;font-weight:800;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="bi bi-exclamation-triangle"></i> Vùng nguy hiểm</div>
+ <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+ <div>
+ <div style="font-size:13.5px;font-weight:600">Xoá tài khoản</div>
+ <div style="font-size:12px;color:var(--text-muted)">Hành động này không thể hoàn tác. Toàn bộ dữ liệu sẽ bị xoá vĩnh viễn.</div>
+ </div>
+ <button onclick="if(confirm('Bạn chắc chắn muốn xoá tài khoản'))stToast('Yêu cầu đã gửi đến quản trị viên.')" style="padding:9px 18px;border-radius:8px;background:var(--red-light);color:var(--red);border:1.5px solid var(--red);font-size:13px;font-weight:700;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;white-space:nowrap">Xoá tài khoản</button>
+ </div>
+ </div>
+ </div><!-- /cột trái -->
+
+ <!-- CỘT PHẢI -->
+ <div style="display:flex;flex-direction:column;gap:16px">
+
+ <!-- Mục tiêu học tập -->
+ <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px">
+ <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:8px">
+ <i class="bi bi-bullseye" style="color:var(--green)"></i> Mục tiêu học tập
+ </div>
+ <div style="display:flex;flex-direction:column;gap:13px">
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">MỤC TIÊU ĐIỂM</label>
+ <select id="st-goal-score" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;background:#fff">
+ <option>7.0 điểm</option><option selected>8.0 điểm</option><option>9.0 điểm</option><option>9.5 điểm</option>
+ </select>
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">KỲ THI MỤC TIÊU</label>
+ <select id="st-goal-exam" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;background:#fff">
+ <option selected>THPTQG 2026</option><option>THPTQG 2027</option><option>Thi thử tháng 6</option>
+ </select>
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">GIỜ HỌC / NGÀY</label>
+ <select id="st-goal-time" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;background:#fff">
+ <option>30 phút</option><option selected>1 giờ</option><option>1.5 giờ</option><option>2 giờ</option>
+ </select>
+ </div>
+ <div>
+ <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:.5px">TRÌNH ĐỘ HIỆN TẠI</label>
+ <select id="st-goal-level" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;font-family:'Be Vietnam Pro',sans-serif;outline:none;background:#fff">
+ <option>Cơ bản (A2)</option><option selected>Trung bình (B1)</option><option>Khá (B2)</option><option>Nâng cao (C1)</option>
+ </select>
+ </div>
+ </div>
+ <div style="margin-top:16px">
+ <button onclick="stSaveGoal()" style="display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);padding:9px 18px;font-size:13.5px;font-weight:700;font-family:'Be Vietnam Pro',sans-serif;cursor:pointer;width:100%;justify-content:center"><i class="bi bi-check2"></i> Lưu mục tiêu</button>
+ </div>
+ </div>
+
+ <!-- Thông báo -->
+ <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px">
+ <div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+ <i class="bi bi-bell" style="color:var(--orange)"></i> Thông báo
+ </div>
+ <div>
+ <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)">
+ <div><div style="font-size:13px;font-weight:600">Nhắc nhở lịch học</div><div style="font-size:11.5px;color:var(--text-muted)">Trước 30 phút mỗi buổi học</div></div>
+ <label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;flex-shrink:0">
+ <input type="checkbox" id="ntf1" checked style="opacity:0;width:0;height:0" onchange="stToggle(this)">
+ <span style="position:absolute;inset:0;background:var(--blue);border-radius:11px;transition:.25s" id="ntf1_track"></span>
+ <span style="position:absolute;top:3px;left:21px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.2)" id="ntf1_knob"></span>
+ </label>
+ </div>
+ <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)">
+ <div><div style="font-size:13px;font-weight:600">Kết quả thi thử</div><div style="font-size:11.5px;color:var(--text-muted)">Khi có kết quả đề thi mới</div></div>
+ <label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;flex-shrink:0">
+ <input type="checkbox" id="ntf2" checked style="opacity:0;width:0;height:0" onchange="stToggle(this)">
+ <span style="position:absolute;inset:0;background:var(--blue);border-radius:11px;transition:.25s" id="ntf2_track"></span>
+ <span style="position:absolute;top:3px;left:21px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.2)" id="ntf2_knob"></span>
+ </label>
+ </div>
+ <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)">
+ <div><div style="font-size:13px;font-weight:600">Trả lời hỏi đáp</div><div style="font-size:11.5px;color:var(--text-muted)">Khi GV trả lời câu hỏi</div></div>
+ <label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;flex-shrink:0">
+ <input type="checkbox" id="ntf3" checked style="opacity:0;width:0;height:0" onchange="stToggle(this)">
+ <span style="position:absolute;inset:0;background:var(--blue);border-radius:11px;transition:.25s" id="ntf3_track"></span>
+ <span style="position:absolute;top:3px;left:21px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.2)" id="ntf3_knob"></span>
+ </label>
+ </div>
+ <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)">
+ <div><div style="font-size:13px;font-weight:600">Email tổng kết tuần</div><div style="font-size:11.5px;color:var(--text-muted)">Tóm tắt tiến độ mỗi tuần</div></div>
+ <label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;flex-shrink:0">
+ <input type="checkbox" id="ntf4" style="opacity:0;width:0;height:0" onchange="stToggle(this)">
+ <span style="position:absolute;inset:0;background:#cbd5e1;border-radius:11px;transition:.25s" id="ntf4_track"></span>
+ <span style="position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.2)" id="ntf4_knob"></span>
+ </label>
+ </div>
+ <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0">
+ <div><div style="font-size:13px;font-weight:600">Thông báo khuyến mãi</div><div style="font-size:11.5px;color:var(--text-muted)">Tin tức & ưu đãi từ EC</div></div>
+ <label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer;flex-shrink:0">
+ <input type="checkbox" id="ntf5" style="opacity:0;width:0;height:0" onchange="stToggle(this)">
+ <span style="position:absolute;inset:0;background:#cbd5e1;border-radius:11px;transition:.25s" id="ntf5_track"></span>
+ <span style="position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.2)" id="ntf5_knob"></span>
+ </label>
+ </div>
+ </div>
+ </div>
+
+ </div><!-- /cột phải -->
+ </div><!-- /grid -->
+</div><!-- /#view-settings -->
+</main>
+
+<!-- ── TOUR GIỚI THIỆU CHỨC NĂNG ── -->
+<div id="featureTour" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;padding:16px">
+ <div style="background:var(--bg-card);border-radius:20px;max-width:480px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.25);overflow:hidden">
+ <div style="background:linear-gradient(135deg,#1a6ef5,#4f8ef7);padding:24px 28px 20px;color:#fff;text-align:center">
+ <div style="font-size:36px;margin-bottom:8px"></div>
+ <div style="font-size:18px;font-weight:800;margin-bottom:4px">Chào mừng bạn đến với Dashboard!</div>
+ <div style="font-size:13px;opacity:.85">Hãy cùng khám phá các tính năng học tập của bạn</div>
+ </div>
+ <div id="tourSlides" style="padding:24px 28px">
+ <div class="tour-slide" style="display:block">
+ <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px">
+ <div style="width:48px;height:48px;border-radius:14px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0"></div>
+ <div><div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px">Khóa học của bạn</div>
+ <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Xem danh sách các khóa học đã đăng ký. Nhấn <strong>Học ngay</strong> để vào bài học bất kỳ lúc nào.</div></div>
+ </div>
+ <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px">
+ <div style="width:48px;height:48px;border-radius:14px;background:var(--orange-light);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0"></div>
+ <div><div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px">Luyện đề thi thử</div>
+ <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Hàng trăm đề thi chuẩn THPTQG. Làm xong được chấm điểm và phân tích lỗi sai ngay lập tức.</div></div>
+ </div>
+ <div style="display:flex;align-items:flex-start;gap:16px">
+ <div style="width:48px;height:48px;border-radius:14px;background:var(--purple-light);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">⭐</div>
+ <div><div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px">Hệ thống điểm XP</div>
+ <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Mỗi bài học, bài thi hoàn thành sẽ cộng XP. Lên cấp để mở huy hiệu và leo bảng xếp hạng.</div></div>
+ </div>
+ </div>
+ <div class="tour-slide" style="display:none">
+ <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px">
+ <div style="width:48px;height:48px;border-radius:14px;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0"></div>
+ <div><div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px">Chuỗi ngày học (Streak)</div>
+ <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Học mỗi ngày để duy trì streak. Chuỗi càng dài, phần thưởng XP càng lớn — đừng để gián đoạn nhé!</div></div>
+ </div>
+ <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px">
+ <div style="width:48px;height:48px;border-radius:14px;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0"></div>
+ <div><div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px">Bảng xếp hạng</div>
+ <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Cạnh tranh lành mạnh với học viên khác theo tuần và tháng. Top 3 mỗi tháng nhận phần thưởng đặc biệt.</div></div>
+ </div>
+ <div style="display:flex;align-items:flex-start;gap:16px">
+ <div style="width:48px;height:48px;border-radius:14px;background:#fee2e2;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0"></div>
+ <div><div style="font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px">Giới hạn 2 khóa học</div>
+ <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Mỗi học viên chỉ đăng ký tối đa <strong>2 khóa học</strong> cùng lúc để đảm bảo tập trung và chất lượng học tập.</div></div>
+ </div>
+ </div>
+ </div>
+ <div style="padding:0 28px 24px;display:flex;align-items:center;justify-content:space-between">
+ <div style="display:flex;gap:6px">
+ <div onclick="goTourSlide(0)" style="width:8px;height:8px;border-radius:50%;cursor:pointer;transition:all .2s" id="dot0"></div>
+ <div onclick="goTourSlide(1)" style="width:8px;height:8px;border-radius:50%;cursor:pointer;transition:all .2s" id="dot1"></div>
+ </div>
+ <div style="display:flex;gap:10px">
+ <button id="tourPrev" onclick="tourNav(-1)" style="display:none;padding:9px 18px;border-radius:10px;border:1.5px solid var(--border);background:none;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer">← Quay lại</button>
+ <button id="tourNext" onclick="tourNav(1)" style="padding:9px 22px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer">Tiếp theo →</button>
+ </div>
+ </div>
+ </div>
+</div>
+
+ <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <script src="assets/js/app/core/dashboard-api-only.js?v=20260604-api-only"></script>
+<script src="assets/js/app/core/site-integration.js?v=20260530-integrated-db"></script>
+ <script src="assets/js/app/core/auth.js?v=20260602-session-db"></script>
+ <script src="assets/js/app/features/student/dashboard.js?v=20260602-student-role"></script>
+ <script src="assets/js/app/features/student/extended.js?v=20260530"></script>
+</body>
+</html>
