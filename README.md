@@ -60,7 +60,7 @@ My main contributions include:
 
 This repository includes BA-related documentation and analysis artifacts to demonstrate how business requirements were translated into system features.
 
-- [Academic Project Report](./English%20Center/English_Center_Project_Report.pdf)  
+- [Academic Project Report](./English%20Center/English_Center_Project_Report..pdf)  
   Includes project overview, user role analysis, system workflows, use case diagrams, feature analysis, system architecture, and system evaluation.
 
 - [System Architecture](./English%20Center/SYSTEM_ARCHITECTURE.md)  
