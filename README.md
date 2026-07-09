@@ -56,17 +56,21 @@ My main contributions include:
 
 ## Business Analysis Scope
 
-This project demonstrates my ability to work with BA-related documentation and analysis tasks, including:
+## Business Analyst Deliverables
 
-- Requirement Analysis
-- Use Case Specification
-- Workflow Analysis
-- Business Rules
-- Screen Flow Documentation
-- User Role Mapping
-- Functional Requirement Description
-- SRS-style Documentation
-- Basic understanding of REST API, database, and software development process
+This repository includes BA-related documentation and analysis artifacts to demonstrate how business requirements were translated into system features.
+
+- [Academic Project Report](./English%20Center/English_Center_Project_Report.pdf)  
+  Includes project overview, user role analysis, system workflows, use case diagrams, feature analysis, system architecture, and system evaluation.
+
+- [System Architecture](./English%20Center/SYSTEM_ARCHITECTURE.md)  
+  Describes system components, main data flows, API flow, database connection, and AI integration.
+
+- [Student Dashboard Guide](./English%20Center/STUDENT_DASHBOARD_GUIDE.md)  
+  Describes student-facing dashboard features and learning progress tracking.
+
+- [Implementation Checklist](./English%20Center/IMPLEMENTATION_CHECKLIST.md)  
+  Tracks implementation status, feature progress, and project completion.
 
 ## Technical Awareness
 
